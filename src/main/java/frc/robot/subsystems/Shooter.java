@@ -14,6 +14,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -126,14 +127,14 @@ public class Shooter extends SubsystemBase {
         double distance = -1;
         // get distance to each trench
         if (isBlue){
-            Translation2d leftTarget = Constants.AlignTargets.BLUE_TRENCH_LEFT;
-            Translation2d rightTarget = Constants.AlignTargets.BLUE_TRENCH_RIGHT;
+            Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
+            Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
             double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
             double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
             distance = (leftDistance < rightDistance) ? leftDistance : rightDistance;
         } else {
-            Translation2d leftTarget = Constants.AlignTargets.RED_TRENCH_LEFT;
-            Translation2d rightTarget = Constants.AlignTargets.RED_TRENCH_RIGHT;
+            Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
+            Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
             double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
             double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
             distance = (leftDistance < rightDistance) ? leftDistance : rightDistance;
@@ -144,7 +145,7 @@ public class Shooter extends SubsystemBase {
 
     public double distanceFromHub() {
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
-        Translation2d targetPosition = isBlue ? Constants.AlignTargets.BLUE_HUB : Constants.AlignTargets.RED_HUB;
+        Pose2d targetPosition = isBlue ? Constants.AlignTargets.getVirtualRed_Hub() : Constants.AlignTargets.getVirtualBlue_Hub();
         double dist = m_drivetrain.getDistanceTo(targetPosition);
         return dist;
 

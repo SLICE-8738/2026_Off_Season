@@ -14,6 +14,8 @@ import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import frc.slicelibs.configs.CTREConfigs;
+import edu.wpi.first.math.geometry.Pose2d;
+import frc.robot.ShotCalculator;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -43,8 +45,47 @@ public final class Constants {
         public static final Translation2d BLUE_HUB = new Translation2d(4.625, 4.034);
         public static final Translation2d RED_HUB = new Translation2d(11.915, 4.034);
         */
-        public static final Translation2d RED_HUB = new Translation2d(4.625, 4.034);
-        public static final Translation2d BLUE_HUB = new Translation2d(11.915, 4.034);
+        public static Pose2d getVirtualRed_Hub() {
+            return ShotCalculator.getInstance().getVirtualTarget(Constants.AlignTargets.RED_HUB);
+        }
+
+        public static Pose2d getVirtualBlue_Hub() {
+            return ShotCalculator.getInstance().getVirtualTarget(Constants.AlignTargets.BLUE_HUB);
+        }
+
+        public static Pose2d getVirtualRed_TrenchLeft() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_LEFT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualRed_TrenchRight() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_RIGHT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualBlue_TrenchLeft() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_TRENCH_LEFT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualBlue_TrenchRight() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_TRENCH_RIGHT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualBlue_PassLeft() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_LEFT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualBlue_PassRight() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_RIGHT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualRed_PassLeft() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_LEFT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualRed_PassRight() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_RIGHT, Rotation2d.kZero));
+        }
+        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
         
         public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
         public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);

@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -37,7 +38,7 @@ public class AutoAlign extends Command {
     private final XboxController m_driverController;
     private final Target m_target;
 
-    private Translation2d targetPosition;
+    private Pose2d targetPosition;
 
     private ShuffleboardTab driverTab;
 
@@ -66,9 +67,9 @@ public class AutoAlign extends Command {
     public void initialize() {
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
         targetPosition = switch (m_target) {
-            case HUB -> isBlue ? Constants.AlignTargets.BLUE_HUB : Constants.AlignTargets.RED_HUB;
-            case PASS_LEFT -> isBlue ? Constants.AlignTargets.BLUE_PASS_LEFT : Constants.AlignTargets.RED_PASS_LEFT;
-            case PASS_RIGHT -> isBlue ? Constants.AlignTargets.BLUE_PASS_RIGHT : Constants.AlignTargets.RED_PASS_RIGHT;
+            case HUB -> isBlue ? Constants.AlignTargets.getVirtualRed_Hub() : Constants.AlignTargets.getVirtualBlue_Hub();
+            case PASS_LEFT -> isBlue ? Constants.AlignTargets.getVirtualRed_PassLeft() : Constants.AlignTargets.getVirtualBlue_PassLeft();
+            case PASS_RIGHT -> isBlue ? Constants.AlignTargets.getVirtualRed_PassRight() : Constants.AlignTargets.getVirtualBlue_PassRight();
         };
 
         double dist = m_drivetrain.getDistanceTo(targetPosition);
