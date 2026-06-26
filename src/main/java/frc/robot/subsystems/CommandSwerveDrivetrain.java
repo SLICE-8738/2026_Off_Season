@@ -330,8 +330,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      *
      * @param target field-relative target position in meters
      */
-    public double getDistanceTo(Translation2d target) {
-        return getPose().getTranslation().getDistance(target);
+    public double getDistanceTo(Pose2d target) {
+        return getPose().getTranslation().getDistance(target.getTranslation());
     }
 
     /**
@@ -341,7 +341,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param realTarget the actual field target
      * @return corrected target accounting for robot motion during TOF
      */
-    public Translation2d getCompensatedTarget(Translation2d realTarget) {
+    public Translation2d getCompensatedTarget(Pose2d realTarget) {
         double dist = getDistanceTo(realTarget);
         // double tof = Constants.ShooterConstants.SHOOTER_MAP.get(dist).tof();
         // ChassisSpeeds fieldSpeeds = getFieldRelativeSpeeds();
@@ -367,10 +367,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /**
      * Returns heading PID output (rad/s) toward the given target.
      */
-    public double getHeadingPIDOutput(Translation2d target) {
+    public double getHeadingPIDOutput(Pose2d target) {
         return headingPID.calculate(
                 getPose().getRotation().getRadians(),
-                getTargetHeading(target).getRadians());
+                getTargetHeading(target.getTranslation()).getRadians());
     }
 
     /** @return true when the heading PID is within tolerance */
@@ -472,7 +472,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }*/
         m_Field.setRobotPose(getState().Pose);
         updateVisionWithCamera("limelight-trench");
-        updateVisionWithCamera("limelight-hub");
+        updateVisionWithCamera("limelight-hub");}
 
         /*
         var limelightPose2 = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight-hub");
@@ -500,7 +500,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             }   
         */    
 
-        
+        public ChassisSpeeds getAsFieldRelativeSpeeds() {
+        ChassisSpeeds robotRelSpeeds = getState().Speeds;
+        return ChassisSpeeds.fromRobotRelativeSpeeds(
+            robotRelSpeeds.vxMetersPerSecond,
+            robotRelSpeeds.vyMetersPerSecond,
+            robotRelSpeeds.omegaRadiansPerSecond,
+            getState().Pose.getRotation()
+        );
+    }
+
+    public Translation2d getFieldRelativeVelocity() {
+        ChassisSpeeds fieldRelSpeeds = getAsFieldRelativeSpeeds();
+        return new Translation2d(fieldRelSpeeds.vxMetersPerSecond, fieldRelSpeeds.vyMetersPerSecond);
         
         
        }

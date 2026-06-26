@@ -14,6 +14,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.XboxController;
@@ -30,7 +31,7 @@ public class AutoAlignTrench extends Command {
   private final CommandSwerveDrivetrain m_drivetrain;
     private final XboxController m_driverController;
 
-    private Translation2d targetPosition;
+    private Pose2d targetPosition;
 
     private ShuffleboardTab driverTab;
 
@@ -60,14 +61,14 @@ public class AutoAlignTrench extends Command {
     boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
     // get distance to each trench
     if (isBlue){
-      Translation2d leftTarget = Constants.AlignTargets.BLUE_TRENCH_LEFT;
-      Translation2d rightTarget = Constants.AlignTargets.BLUE_TRENCH_RIGHT;
+      Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
+      Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
       double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
       double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
       targetPosition = (leftDistance < rightDistance) ? leftTarget : rightTarget;
     } else {
-      Translation2d leftTarget = Constants.AlignTargets.RED_TRENCH_LEFT;
-      Translation2d rightTarget = Constants.AlignTargets.RED_TRENCH_RIGHT;
+      Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
+      Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
       double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
       double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
       targetPosition = (leftDistance < rightDistance) ? leftTarget : rightTarget;
