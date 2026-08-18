@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -267,19 +266,19 @@ public class RobotContainer {
                             new SequentialCommandGroup(
                                 new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))));*/
        
-        Buttons.controller1_RightTrigger.whileTrue(new ConditionalCommand(m_Pass.alongWith(m_AutoAlignTrench, new SequentialCommandGroup(
-                new WaitCommand(2), 
-                    new ParallelCommandGroup(
-                        new SpinBothIndexer(m_Indexer), 
-                            new SequentialCommandGroup(
-                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))), m_shoot
-            .alongWith(m_AutoAlignHub,
+        // OUTREACH: passing mode disabled entirely — RightTrigger always runs the shoot path now,
+        // regardless of detected field position, so Pass (and its own distance-based ranging /
+        // AutoAlignTrench) can never be triggered. Auto-align removed here too: nothing else
+        // requires the drivetrain while shooting, so the default drive command keeps running
+        // underneath and the driver retains full manual control of translation AND rotation.
+        Buttons.controller1_RightTrigger.whileTrue(m_shoot
+            .alongWith(
             new SequentialCommandGroup(
                 new WaitCommand(2), 
                     new ParallelCommandGroup(
                         new SpinBothIndexer(m_Indexer), 
                             new SequentialCommandGroup(
-                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))), () -> m_drivetrain.detectOutsideAlliance()));
+                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))));
         
         /* Intake */
         
@@ -339,7 +338,10 @@ public class RobotContainer {
             )
         );
 
-        m_Indexer.setDefaultCommand(m_stageOnePassive.alongWith(new ReverseKicker(m_Indexer)));
+        // OUTREACH: indexer previously ran passively (StageOnePassive + ReverseKicker) any time the
+        // robot was enabled. For outreach/safety, the indexer should stay stopped unless a shoot
+        // command explicitly spins it (see the SpinBothIndexer call inside the RightTrigger binding).
+        m_Indexer.setDefaultCommand(Commands.run(m_Indexer::stopAll, m_Indexer));
 
 
         // Idle while the robot is disabled. This ensures the configured

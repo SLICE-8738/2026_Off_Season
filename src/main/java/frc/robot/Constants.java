@@ -267,6 +267,10 @@ public final class Constants {
         public static final double FLYWHEEL_RPM_ACCEPTABLE_ERROR = 60.0; // rpm
         public static final double VERTICAL_AIM_ACCEPTABLE_ERROR = .25; // degrees
 
+        // OUTREACH: fixed flywheel speed used instead of the distance-based SHOOTER_MAP lookup.
+        // Sign matches the SHOOTER_MAP convention (negative = forward shot direction).
+        public static final double OUTREACH_FLYWHEEL_RPM = -2250.0;
+
         // TODO: Add an offset from the apriltag to the hub center = 0.60375 m
         public static final InterpolatingTreeMap<Double, FullShooterParams> SHOOTER_MAP = new InterpolatingTreeMap<>(
                 MathUtil::inverseInterpolate, FullShooterParams::interpolate);

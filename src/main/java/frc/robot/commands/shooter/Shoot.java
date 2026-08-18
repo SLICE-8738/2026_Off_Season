@@ -45,23 +45,12 @@ public class Shoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double distance = m_Shooter.distanceFromHub();//m_drivetrain.getDistanceTo(Constants.AlignTargets.RED_HUB);
-    m_ShuffleboardDistance.getEntry().setDouble(distance);
-    m_ShuffleboardGoodSpeed.getEntry().setDouble(m_Shooter.getGoodSpeed());
-    // TODO uncomment and recomment depending on which mode the shooter is in
-    // double angle = 28; //Constants.ShooterConstants.SHOOTER_MAP.get(distance).hoodAngle();
-    double rpm = /* m_ShuffleboardRPM.getDouble(-1200); */ Constants.ShooterConstants.SHOOTER_MAP.get(distance).rpm();
+    // OUTREACH: auto-ranging (distance-based SHOOTER_MAP lookup) removed. The flywheel always
+    // spins to a fixed, safe speed instead of assuming a far distance and ramping to max RPM.
+    double rpm = Constants.ShooterConstants.OUTREACH_FLYWHEEL_RPM;
     m_ShuffleboardTargetRPM.getEntry().setDouble(rpm);
-    // double angle = m_ShuffleboardAngle.getDouble(12);
-    // double rps = m_ShuffleboardRPM.getDouble(-1200) / 60;
-    if (distance == -1) {
-      m_Shooter.spinFlywheels(-m_Shooter.getGoodSpeed());
-    }
-    else {
-      m_Shooter.setGoodSpeed(rpm);
-      m_Shooter.spinFlywheels(rpm); 
-    }
-    
+    m_Shooter.setGoodSpeed(rpm);
+    m_Shooter.spinFlywheels(rpm);
   }
 
   // Called once the command ends or is interrupted.
