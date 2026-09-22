@@ -108,6 +108,7 @@ public final class Constants {
         public static final int STAGE_ONE_MOTOR_ID = 7;
         public static final int STAGE_TWO_MOTOR_ID = 1;
 
+
         public static final double STAGE_ONE_INTAKE_SPEED = 0.9;
         public static final double STAGE_ONE_INTAKE_PASSIVE_SPEED = 0.2;
         public static final double STAGE_TWO_INTAKE_SPEED = 1;
@@ -205,27 +206,29 @@ public final class Constants {
     public static class IntakeConstants {
 
         public static final int ROTATION_MOTOR_ID = 6;
+        public static final int ROTATION_MOTOR_FOLLOWER_ID = 9;
         public static final int EXTENDER_MOTOR_ID = 5;
+        public static final int EXTENDER_MOTOR_FOLLOWER_ID = 8;
 
         // Positional subsystem constants
         public static final double EXTENDER_KP = 4.0;
         public static final double EXTENDER_KI = 0;
         public static final double EXTENDER_KD = 0.035;
         public static final double EXTENDER_KG = 0.0; // FF for gravity, most likely don't need this
-        public static final double EXTENDER_RATIO = 50.0 / 9.0; // 5.55 repeating
+        public static final double EXTENDER_RATIO = 19.0/6.0; // 3.166 repeating ||  // 50.0 / 9.0; // 5.55 repeating
         public static final int EXTENDER_STATOR_CURRENT_LIMIT = 40;
         public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 30;
         public static final double POSITION_CONVERSION_FACTOR = (0.0254 * Math.PI); // (pitch diameter of pinion * pi)
         public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR; // meters per second
 
         public static final double STOWED_POSITION = 0.0125; // Meters
-        public static final double DEPLOYED_POSITION = 0.29-.006; // Meters
+        public static final double DEPLOYED_POSITION = 0.3937; // Meters
         public static final double OSCILLATION_AMOUNT = .2; // Meters; how far it goes out
         public static final double OSCILLATION_DIFF = .1; // Meters; how much further it goes in
         // Roller motor constants
         public static final double ROLLER_SPEED = 6000.0 / 60.0;//0.625;//0.9;
         public static final double ROLLER_RETRACT_SPEED = 0.0;
-        public static final double ROLLER_GEAR_RATIO = 2.0;
+        public static final double ROLLER_GEAR_RATIO =  10.0/3.0; //3.333 repeating  //2.0;
         public static final double ROLLER_KP = 100.0;
         public static final double ROLLER_KI = 0.0;
         public static final double ROLLER_KD = 10.0;

@@ -77,6 +77,7 @@ public class TalonFXPositionalSubsystem extends SubsystemBase {
 
         motors = new TalonFX[ids.length];
         for (int i = 0; i < ids.length; i++) {
+
             TalonFXConfiguration configs = motorConfigs;
 
             if (inverted[i]) {

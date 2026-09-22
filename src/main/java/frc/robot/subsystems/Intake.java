@@ -11,6 +11,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -24,6 +25,7 @@ import frc.slicelibs.TalonFXPositionalSubsystem;
 public class Intake extends TalonFXPositionalSubsystem {
 
   private TalonFX rotationMotor;
+  private TalonFX rotationMotorFollower;
 
   //DutyCycleOut rollerRequest = new DutyCycleOut(0).withEnableFOC(true);
 
@@ -34,8 +36,8 @@ public class Intake extends TalonFXPositionalSubsystem {
   public Intake() {
     // Initialize the Positional Subsystem and motors controlling it
     super(
-      new int[] { Constants.IntakeConstants.EXTENDER_MOTOR_ID },
-      new boolean[] { false },
+      new int[] { Constants.IntakeConstants.EXTENDER_MOTOR_ID, Constants.IntakeConstants.EXTENDER_MOTOR_FOLLOWER_ID },
+      new boolean[] { false, true },
       Constants.IntakeConstants.EXTENDER_KP, Constants.IntakeConstants.EXTENDER_KI, Constants.IntakeConstants.EXTENDER_KD, Constants.IntakeConstants.EXTENDER_KG,
       Constants.IntakeConstants.EXTENDER_RATIO,
       GravityTypeValue.Elevator_Static,
@@ -49,9 +51,13 @@ public class Intake extends TalonFXPositionalSubsystem {
 
     // Non-positional motor for spinning the roller
     rotationMotor = new TalonFX(Constants.IntakeConstants.ROTATION_MOTOR_ID);
+    rotationMotorFollower = new TalonFX(Constants.IntakeConstants.ROTATION_MOTOR_FOLLOWER_ID);
 
     // Set motor configs for the roller motor
     rotationMotor.getConfigurator().apply(Constants.CTRE_CONFIGS.rollerConfigs);
+    rotationMotorFollower.getConfigurator().apply(Constants.CTRE_CONFIGS.rollerConfigs);
+
+    rotationMotorFollower.setControl(new com.ctre.phoenix6.controls.Follower(rotationMotor.getDeviceID(), MotorAlignmentValue.Aligned));
 
   }
 
@@ -62,6 +68,7 @@ public class Intake extends TalonFXPositionalSubsystem {
   public void spinRoller(double speed) {
     rollerTargetSpeed = speed;
     rotationMotor.setControl(rollerVoltage.withVelocity(speed));
+
     //rotationMotor.setControl(rollerRequest.withOutput(speed).withEnableFOC(true));
   }
 
