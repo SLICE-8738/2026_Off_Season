@@ -8,21 +8,16 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
-import java.util.HashMap;
-import java.util.concurrent.locks.AbstractQueuedLongSynchronizer.ConditionObject;
-import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.wpilibj.RuntimeType;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.AutoAlign;
@@ -52,7 +46,6 @@ import frc.robot.commands.intake.Spintake;
 import frc.robot.commands.intake.Stoptake;
 import frc.robot.commands.intake.MoveIntake;
 import frc.robot.commands.intake.Unstucktake;
-import frc.robot.commands.shooter.AlignAndShoot;
 import frc.robot.commands.shooter.BasicShoot;
 import frc.robot.commands.shooter.Pass;
 import frc.robot.commands.shooter.Shoot;
@@ -257,29 +250,35 @@ public class RobotContainer {
         /* Shooter */
 
         
-        /* Dead Code??
-        Buttons.controller1_RightTrigger.whileTrue(m_shoot
-            .alongWith(m_AutoAlignHub,
-            new SequentialCommandGroup(
-                new WaitCommand(2), 
-                    new ParallelCommandGroup(
-                        new SpinBothIndexer(m_Indexer), 
+         Buttons.controller1_RightTrigger.whileTrue(
+            new ConditionalCommand(
+                m_Pass.alongWith(
+                    m_AutoAlignTrench,                              //aligns to trench
+                    new SequentialCommandGroup(
+                        new WaitCommand(2),                 //waits for shooter to spin up (can be later changed to a command that checks if shooter is at speed)
+                        new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
+                            new SpinBothIndexer(m_Indexer), 
                             new SequentialCommandGroup(
-                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))));
-        */
-        Buttons.controller1_RightTrigger.whileTrue(new ConditionalCommand(m_Pass.alongWith(m_AutoAlignTrench, new SequentialCommandGroup(
-                new WaitCommand(2), 
-                    new ParallelCommandGroup(
-                        new SpinBothIndexer(m_Indexer), 
+                                new WaitCommand(0.25),
+                                new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter
+                            )
+                        )
+                    )
+                ),
+                m_shoot.alongWith(
+                    m_AutoAlignHub,                                 //aligns to hub
+                    new SequentialCommandGroup(
+                        new WaitCommand(2),                 //waits for shooter to spin up (can be later changed to a command that checks if shooter is at speed)
+                        new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
+                            new SpinBothIndexer(m_Indexer), 
                             new SequentialCommandGroup(
-                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))), m_shoot
-            .alongWith(m_AutoAlignHub,
-            new SequentialCommandGroup(
-                new WaitCommand(2), 
-                    new ParallelCommandGroup(
-                        new SpinBothIndexer(m_Indexer), 
-                            new SequentialCommandGroup(
-                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))), () -> m_drivetrain.detectOutsideAlliance()));
+                                new WaitCommand(0.25), 
+                                new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter
+                            )
+                        )
+                    )
+                ),                  
+            () -> m_drivetrain.detectOutsideAlliance())); 
         
         /* Intake */
         
