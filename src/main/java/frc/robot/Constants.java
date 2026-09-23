@@ -205,10 +205,10 @@ public final class Constants {
 
     public static class IntakeConstants {
 
-        public static final int ROTATION_MOTOR_ID = 6;
+        public static final int ROTATION_MOTOR_ID = 5;
         public static final int ROTATION_MOTOR_FOLLOWER_ID = 9;
-        public static final int EXTENDER_MOTOR_ID = 5;
-        public static final int EXTENDER_MOTOR_FOLLOWER_ID = 8;
+        public static final int EXTENDER_MOTOR_ID = 4;
+        public static final int EXTENDER_MOTOR_FOLLOWER_ID = 6;
 
         // Positional subsystem constants
         public static final double EXTENDER_KP = 4.0;
