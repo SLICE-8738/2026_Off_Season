@@ -216,8 +216,8 @@ public final class Constants {
         public static final double EXTENDER_KD = 0.035;
         public static final double EXTENDER_KG = 0.0; // FF for gravity, most likely don't need this
         public static final double EXTENDER_RATIO = 19.0/6.0; // 3.166 repeating ||  // 50.0 / 9.0; // 5.55 repeating
-        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 40;
-        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 30;
+        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 60;
+        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 45;
         public static final double POSITION_CONVERSION_FACTOR = (0.0254 * Math.PI); // (pitch diameter of pinion * pi)
         public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR; // meters per second
 
@@ -232,7 +232,7 @@ public final class Constants {
         public static final double ROLLER_KP = 100.0;
         public static final double ROLLER_KI = 0.0;
         public static final double ROLLER_KD = 10.0;
-        public static final int ROLLER_STATOR_CURRENT_LIMIT = 69;
+        public static final int ROLLER_STATOR_CURRENT_LIMIT = 70;
         public static final int ROLLER_SUPPLY_CURRENT_LIMIT = 40;
     }
 

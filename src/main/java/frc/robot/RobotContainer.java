@@ -257,16 +257,16 @@ public class RobotContainer {
         /* Shooter */
 
         
-        // TODO please please please fix the shooter so we can uncomment this code, Harrissh
-        /*Buttons.controller1_RightTrigger.whileTrue(m_shoot
+        /* Dead Code??
+        Buttons.controller1_RightTrigger.whileTrue(m_shoot
             .alongWith(m_AutoAlignHub,
             new SequentialCommandGroup(
                 new WaitCommand(2), 
                     new ParallelCommandGroup(
                         new SpinBothIndexer(m_Indexer), 
                             new SequentialCommandGroup(
-                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))));*/
-       
+                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))));
+        */
         Buttons.controller1_RightTrigger.whileTrue(new ConditionalCommand(m_Pass.alongWith(m_AutoAlignTrench, new SequentialCommandGroup(
                 new WaitCommand(2), 
                     new ParallelCommandGroup(
