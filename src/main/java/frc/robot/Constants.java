@@ -211,7 +211,7 @@ public final class Constants {
         public static final int EXTENDER_MOTOR_FOLLOWER_ID = 6;
 
         // Positional subsystem constants
-        public static final double EXTENDER_KP = 4.0;
+        public static final double EXTENDER_KP = 5.0;
         public static final double EXTENDER_KI = 0;
         public static final double EXTENDER_KD = 0.035;
         public static final double EXTENDER_KG = 0.0; // FF for gravity, most likely don't need this
@@ -226,7 +226,7 @@ public final class Constants {
         public static final double OSCILLATION_AMOUNT = .2; // Meters; how far it goes out
         public static final double OSCILLATION_DIFF = .1; // Meters; how much further it goes in
         // Roller motor constants
-        public static final double ROLLER_SPEED = 6000.0 / 60.0;//0.625;//0.9;
+        public static final double ROLLER_SPEED = 6000.0/60.0;//0.625;//0.9;
         public static final double ROLLER_RETRACT_SPEED = 0.0;
         public static final double ROLLER_GEAR_RATIO =  10.0/3.0; //3.333 repeating  //2.0;
         public static final double ROLLER_KP = 100.0;
@@ -258,7 +258,6 @@ public final class Constants {
         public static final double POSITION_CONVERSION_FACTOR = 360; // Degrees
         public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR; // Degrees per Second
 
-        //public static final double AIM_KP = 0.6;
         public static final double AIM_KP = 0.8;
         public static final double AIM_KI = 0.0;
         public static final double AIM_KD = 0.0;

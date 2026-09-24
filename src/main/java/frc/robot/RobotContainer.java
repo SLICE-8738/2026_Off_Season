@@ -87,8 +87,8 @@ public class RobotContainer {
     public final OscillateIntake m_OscillateIntake;
     public final ExtendIntake m_IntakeCommand;
 
-    public final MoveIntake m_TestExtendIntake;
-    public final MoveIntake m_TestRetractIntake;
+    public final ExtendIntake m_TestExtendIntake;
+    public final RetractIntake m_TestRetractIntake;
 
     /* Indexer */
     public final SpinStageOne m_spinStageOne;
@@ -123,7 +123,7 @@ public class RobotContainer {
     // =====================
 
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(0.80).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -169,8 +169,8 @@ public class RobotContainer {
         // Removed the conditional command because it is not working properly, and is overriding manual controls
         m_IntakeCommand   = new ExtendIntake(m_Intake);//new ConditionalCommand(m_ExtendIntake.andThen(m_Spintake), m_Stoptake, () -> (m_Intake.isStowed() == true));
 
-        m_TestExtendIntake = new MoveIntake(m_Intake, 0.4);
-        m_TestRetractIntake = new MoveIntake(m_Intake, -0.4);
+        m_TestExtendIntake = new ExtendIntake(m_Intake);
+        m_TestRetractIntake = new RetractIntake(m_Intake);
 
         /* Indexer */
         m_spinStageOne = new SpinStageOne(m_Indexer, 1);
@@ -266,6 +266,7 @@ public class RobotContainer {
                     )
                 ),
                 m_shoot.alongWith(
+                    m_SwerveX,                                      // natural brake (turns wheels inward)
                     m_AutoAlignHub,                                 //aligns to hub
                     new SequentialCommandGroup(
                         new WaitCommand(2),                 //waits for shooter to spin up (can be later changed to a command that checks if shooter is at speed)
@@ -294,8 +295,8 @@ public class RobotContainer {
         Buttons.controller1_YButton.whileTrue(new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
         Buttons.controller1_BButton.whileTrue(new SpinStageTwo(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
         
-        Buttons.controller1_povUp.whileTrue(m_TestExtendIntake);
-        Buttons.controller1_povDown.whileTrue(m_TestRetractIntake);
+        Buttons.controller1_povUp.whileTrue(m_ExtendIntake);
+        Buttons.controller1_povDown.whileTrue(m_RetractIntake);
 
         /*Buttons.controller1_rightBumper.whileTrue(m_Pass.alongWith(m_AutoAlignTrench, new SequentialCommandGroup(
                 new WaitCommand(2), 
