@@ -160,6 +160,7 @@ public class CTREConfigs {
         rollerConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.ROLLER_STATOR_CURRENT_LIMIT;
         rollerConfigs.CurrentLimits.SupplyCurrentLimit = Constants.IntakeConstants.ROLLER_SUPPLY_CURRENT_LIMIT;
 
+
         rollerFollowerConfigs.Slot0.kP = Constants.IntakeConstants.ROLLER_KP;
         rollerFollowerConfigs.Slot0.kI = Constants.IntakeConstants.ROLLER_KI;
         rollerFollowerConfigs.Slot0.kD = Constants.IntakeConstants.ROLLER_KD;

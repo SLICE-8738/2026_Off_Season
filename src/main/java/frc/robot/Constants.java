@@ -84,8 +84,8 @@ public final class Constants {
         public static Pose2d getVirtualRed_PassRight() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_RIGHT, Rotation2d.kZero));
         }
-        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
-        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
+        public static final Pose2d RED_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
         
         public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
         public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);
@@ -216,13 +216,13 @@ public final class Constants {
         public static final double EXTENDER_KD = 0.035;
         public static final double EXTENDER_KG = 0.0; // FF for gravity, most likely don't need this
         public static final double EXTENDER_RATIO = 19.0/6.0; // 3.166 repeating ||  // 50.0 / 9.0; // 5.55 repeating
-        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 60;
-        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 45;
+        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 70;
+        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 50;
         public static final double POSITION_CONVERSION_FACTOR = (0.0254 * Math.PI); // (pitch diameter of pinion * pi)
         public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR; // meters per second
 
         public static final double STOWED_POSITION = 0.0125; // Meters
-        public static final double DEPLOYED_POSITION = 0.3937; // Meters
+        public static final double DEPLOYED_POSITION = 0.3800; // Meters
         public static final double OSCILLATION_AMOUNT = .2; // Meters; how far it goes out
         public static final double OSCILLATION_DIFF = .1; // Meters; how much further it goes in
         // Roller motor constants

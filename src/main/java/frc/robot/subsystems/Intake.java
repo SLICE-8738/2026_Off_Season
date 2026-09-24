@@ -57,8 +57,7 @@ public class Intake extends TalonFXPositionalSubsystem {
     rotationMotor.getConfigurator().apply(Constants.CTRE_CONFIGS.rollerConfigs);
     rotationMotorFollower.getConfigurator().apply(Constants.CTRE_CONFIGS.rollerFollowerConfigs);
 
-    rotationMotorFollower.setControl(new com.ctre.phoenix6.controls.Follower(rotationMotor.getDeviceID(), MotorAlignmentValue.Aligned));
-
+    rotationMotorFollower.setControl(new com.ctre.phoenix6.controls.StrictFollower(rotationMotor.getDeviceID()));
   }
 
   /**
