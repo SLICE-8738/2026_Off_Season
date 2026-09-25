@@ -428,6 +428,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("Drive/AtTargetHeading", headingPID.atSetpoint());
+        SmartDashboard.putNumber("Drive/HeadingErrorDegrees", Math.toDegrees(headingPID.getPositionError()));
+
         if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
             DriverStation.getAlliance().ifPresent(allianceColor -> {
                 setOperatorPerspectiveForward(

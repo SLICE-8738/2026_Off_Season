@@ -65,6 +65,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void spinFlywheels(double targetRPM) {
+        targetSpeed = targetRPM;
         bottomLeftShooterMotor.setControl(flywheelVelocityRequest.withVelocity(targetRPM   / 60.0));
         bottomRightShooterMotor.setControl(bottomRightFollowerRequest);
         topLeftShooterMotor.setControl(topLeftFollowerRequest);
@@ -116,6 +117,7 @@ public class Shooter extends SubsystemBase {
     }*/
 
     public void windDownFlywheels() {
+        targetSpeed = 0.0;
         bottomLeftShooterMotor.stopMotor();
         bottomRightShooterMotor.stopMotor();
         topLeftShooterMotor.stopMotor();
@@ -172,7 +174,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean atTargetSpeed() {
-        return Math.abs(targetSpeed - getFlywheelSpeed()) <= Constants.ShooterConstants.FLYWHEEL_RPM_ACCEPTABLE_ERROR;
+        return targetSpeed != 0.0
+                && Math.abs(targetSpeed - getFlywheelSpeed()) <= Constants.ShooterConstants.FLYWHEEL_RPM_ACCEPTABLE_ERROR;
     }
 
     public boolean isTuningMode() {

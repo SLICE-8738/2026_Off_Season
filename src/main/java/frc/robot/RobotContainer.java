@@ -255,7 +255,7 @@ public class RobotContainer {
                 m_Pass.alongWith(
                     m_AutoAlignTrench,                              //aligns to trench
                     new SequentialCommandGroup(
-                        new WaitCommand(2),                 //waits for shooter to spin up (can be later changed to a command that checks if shooter is at speed)
+                        Commands.waitUntil(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
                         new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
                             new SpinBothIndexer(m_Indexer), 
                             new SequentialCommandGroup(
@@ -269,7 +269,7 @@ public class RobotContainer {
                     m_SwerveX,                                      // natural brake (turns wheels inward)
                     m_AutoAlignHub,                                 //aligns to hub
                     new SequentialCommandGroup(
-                        new WaitCommand(2),                 //waits for shooter to spin up (can be later changed to a command that checks if shooter is at speed)
+                        Commands.waitUntil(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
                         new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
                             new SpinBothIndexer(m_Indexer), 
                             new SequentialCommandGroup(
