@@ -237,6 +237,7 @@ public final class Constants {
     }
 
     public static class ShooterConstants {
+        public static final double FLYWHEEL_IDLE_RPM = -250.0;
 
         public static final int BOTTOM_LEFT_SHOOTER_MOTOR_ID = 14;
         public static final int BOTTOM_RIGHT_SHOOTER_MOTOR_ID = 2;

@@ -183,6 +183,14 @@ public class RobotContainer {
         m_shoot = new Shoot(m_Shooter, m_drivetrain);
         m_BasicShootHub = new BasicShoot(m_Shooter);
         m_Pass = new Pass(m_Shooter);
+
+        m_Shooter.setDefaultCommand(Commands.run(() -> {
+            if (m_drivetrain.detectOutsideAlliance()) {
+                m_Shooter.windDownFlywheels();
+            } else {
+                m_Shooter.spinFlywheels(Constants.ShooterConstants.FLYWHEEL_IDLE_RPM);
+            }
+        }, m_Shooter));
         
 
         /* Autonomous */
