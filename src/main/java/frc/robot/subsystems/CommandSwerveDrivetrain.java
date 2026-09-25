@@ -260,22 +260,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * {@link SwerveControlParameters}
      */
     public void xSwerve() {
-        Rotation2d[] rotations = {
-            Rotation2d.fromDegrees(45),
-            Rotation2d.fromDegrees(-45),
-            Rotation2d.fromDegrees(-45),
-            Rotation2d.fromDegrees(45),
-        };
-
-        
-        for (int i = 0; i < swerveModules.length; i++){
-            //var requestModuleDirection = new SwerveRequest.PointWheelsAt().withModuleDirection(rotations[i]);
-            var requestModuleDirection = new SwerveRequest.SwerveDriveBrake();
-            //requestModuleDirection.apply(new SwerveControlParameters(), swerveModules);//(swerveModules[i].SteerMotorId);
-            requestModuleDirection.applyNative(swerveModules[i].SteerMotorId);            
-            
-        }
-
+        setControl(new SwerveRequest.SwerveDriveBrake());
     }
     
     /**

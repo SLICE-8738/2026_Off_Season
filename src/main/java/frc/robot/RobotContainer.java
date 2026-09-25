@@ -76,8 +76,6 @@ public class RobotContainer {
     public final AutoAlign m_AutoAlignHub;
     public final AutoAlignTrench m_AutoAlignTrench;
 
-    private final SwerveX m_SwerveX;
-
     /* Intake */
     public final ExtendIntake m_ExtendIntake;
     public final RetractIntake m_RetractIntake;
@@ -154,8 +152,6 @@ public class RobotContainer {
         /* Drive */
         m_AutoAlignHub = new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController);
         m_AutoAlignTrench = new AutoAlignTrench(m_drivetrain, driverController);
-
-        m_SwerveX = new SwerveX(m_drivetrain);
 
         /* Intake */
         m_ExtendIntake    = new ExtendIntake(m_Intake);
@@ -274,12 +270,12 @@ public class RobotContainer {
                     )
                 ),
                 m_shoot.alongWith(
-                    m_SwerveX,                                      // natural brake (turns wheels inward)
-                    m_AutoAlignHub,                                 //aligns to hub
                     new SequentialCommandGroup(
-                        Commands.waitUntil(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
+                        new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController)
+                            .until(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
                         new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
-                            new SpinBothIndexer(m_Indexer), 
+                            new SpinBothIndexer(m_Indexer),
+                            new SwerveX(m_drivetrain),              // X-lock while the indexer feeds the shooter
                             new SequentialCommandGroup(
                                 new WaitCommand(0.25), 
                                 new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter
@@ -296,7 +292,7 @@ public class RobotContainer {
         
         Buttons.controller1_povRight.whileTrue(m_Unstucktake);
 
-        Buttons.controller1_XButton.onTrue(m_SwerveX);
+        Buttons.controller1_XButton.whileTrue(new SwerveX(m_drivetrain));
 
         /* Indexer */
 
