@@ -263,7 +263,12 @@ public class RobotContainer {
                             .until(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
                         new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
                             new SpinBothIndexer(m_Indexer),
-                            new SwerveX(m_drivetrain),              // X-lock while the indexer feeds the shooter
+                            new SwerveX(m_drivetrain).until(() -> {
+                                double joystickX = Math.abs(driverController.getRawAxis(0));
+                                double joystickY = Math.abs(driverController.getRawAxis(1));
+                                double joystickRot = Math.abs(driverController.getRawAxis(4));
+                            return joystickX > 0.1 || joystickY > 0.1 || joystickRot > 0.1;
+                            }),              // X-lock while the indexer feeds the shooter
                             new SequentialCommandGroup(
                                 new WaitCommand(0.25), 
                                 new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter
