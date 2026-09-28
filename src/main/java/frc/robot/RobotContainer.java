@@ -85,9 +85,6 @@ public class RobotContainer {
     public final OscillateIntake m_OscillateIntake;
     public final ExtendIntake m_IntakeCommand;
 
-    public final ExtendIntake m_TestExtendIntake;
-    public final RetractIntake m_TestRetractIntake;
-
     /* Indexer */
     public final SpinStageOne m_spinStageOne;
     public final SpinStageTwo m_spinStageTwo;
@@ -164,9 +161,6 @@ public class RobotContainer {
 
         // Removed the conditional command because it is not working properly, and is overriding manual controls
         m_IntakeCommand   = new ExtendIntake(m_Intake);//new ConditionalCommand(m_ExtendIntake.andThen(m_Spintake), m_Stoptake, () -> (m_Intake.isStowed() == true));
-
-        m_TestExtendIntake = new ExtendIntake(m_Intake);
-        m_TestRetractIntake = new RetractIntake(m_Intake);
 
         /* Indexer */
         m_spinStageOne = new SpinStageOne(m_Indexer, 1);
