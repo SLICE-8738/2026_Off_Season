@@ -329,11 +329,21 @@ public class RobotContainer {
         // and Y is defined as to the left according to WPILib convention.
         m_drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
-            m_drivetrain.applyRequest(() ->
-                drive.withVelocityX(driverController.getRawAxis(1) * MaxSpeed) // Drive forward with negative Y (forward) // Left Y
-                    .withVelocityY(driverController.getRawAxis(0) * MaxSpeed) // Drive left with negative X (left) // Left X
-                    .withRotationalRate(-driverController.getRawAxis(4) * MaxAngularRate) // Drive counterclockwise with negative X (left) // Right X
-            )
+            m_drivetrain.applyRequest(() -> {
+                // Check if joystick is idle
+                double joystickX = Math.abs(driverController.getRawAxis(0));
+                double joystickY = Math.abs(driverController.getRawAxis(1));
+                double joystickRot = Math.abs(driverController.getRawAxis(4));
+                
+                if (joystickX < 0.05 && joystickY < 0.05 && joystickRot < 0.05) {
+                    // Idle - apply neutral/idle request to clear any brake
+                    return new SwerveRequest.Idle();
+                }
+                // Normal driving
+                return drive.withVelocityX(driverController.getRawAxis(1) * MaxSpeed) // Drive forward with negative Y (forward) // Left Y
+                            .withVelocityY(driverController.getRawAxis(0) * MaxSpeed) // Drive left with negative X (left) // Left X
+                            .withRotationalRate(-driverController.getRawAxis(4) * MaxAngularRate); // Drive counterclockwise with negative X (left) // Right X
+            })
         );
 
         m_Indexer.setDefaultCommand(m_stageOnePassive.alongWith(new ReverseKicker(m_Indexer)));
