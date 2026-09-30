@@ -84,8 +84,8 @@ public final class Constants {
         public static Pose2d getVirtualRed_PassRight() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_RIGHT, Rotation2d.kZero));
         }
-        public static final Pose2d BLUE_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
-        public static final Pose2d RED_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
+        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
         
         public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
         public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);
@@ -211,7 +211,7 @@ public final class Constants {
         public static final int EXTENDER_MOTOR_FOLLOWER_ID = 6;
 
         // Positional subsystem constants
-        public static final double EXTENDER_KP = 5.0;
+        public static final double EXTENDER_KP = 3.5;
         public static final double EXTENDER_KI = 0;
         public static final double EXTENDER_KD = 0.035;
         public static final double EXTENDER_KG = 0.0; // FF for gravity, most likely don't need this

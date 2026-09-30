@@ -67,7 +67,7 @@ public class AutoAlign extends Command {
     public void initialize() {
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
         targetPosition = switch (m_target) {
-            case HUB -> isBlue ? Constants.AlignTargets.getVirtualBlue_Hub() : Constants.AlignTargets.getVirtualRed_Hub();
+            case HUB -> isBlue ? Constants.AlignTargets.BLUE_HUB: Constants.AlignTargets.RED_HUB;
             case PASS_LEFT -> isBlue ? Constants.AlignTargets.getVirtualBlue_PassLeft() : Constants.AlignTargets.getVirtualRed_PassLeft();
             case PASS_RIGHT -> isBlue ? Constants.AlignTargets.getVirtualBlue_PassRight() : Constants.AlignTargets.getVirtualRed_PassRight();
         };
