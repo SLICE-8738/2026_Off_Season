@@ -84,8 +84,8 @@ public final class Constants {
         public static Pose2d getVirtualRed_PassRight() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_RIGHT, Rotation2d.kZero));
         }
-        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
-        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
+        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034+0.1, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034-0.1, Rotation2d.kZero);
         
         public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
         public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);
@@ -237,7 +237,7 @@ public final class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double FLYWHEEL_IDLE_RPM = -500.0;
+        public static final double FLYWHEEL_IDLE_RPM = 0;
 
         public static final int BOTTOM_LEFT_SHOOTER_MOTOR_ID = 14;
         public static final int BOTTOM_RIGHT_SHOOTER_MOTOR_ID = 2;
@@ -276,7 +276,7 @@ public final class Constants {
         static {
             SHOOTER_MAP.put(2.064, new FullShooterParams(-2250.0));
             SHOOTER_MAP.put(2.516, new FullShooterParams(-2375.0));
-            SHOOTER_MAP.put(2.730, new FullShooterParams(-2500.0));
+            SHOOTER_MAP.put(2.730, new FullShooterParams(-2540.0));
             SHOOTER_MAP.put(3.02,  new FullShooterParams(-2500.0));
             SHOOTER_MAP.put(3.184, new FullShooterParams(-2525.0));
             SHOOTER_MAP.put(3.474, new FullShooterParams(-2580.0));

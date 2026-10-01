@@ -147,7 +147,7 @@ public class Shooter extends SubsystemBase {
 
     public double distanceFromHub() {
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
-        Pose2d targetPosition = isBlue ? Constants.AlignTargets.getVirtualRed_Hub() : Constants.AlignTargets.getVirtualRed_Hub();
+        Pose2d targetPosition = isBlue ? Constants.AlignTargets.getVirtualBlue_Hub() : Constants.AlignTargets.getVirtualRed_Hub();
         double dist = m_drivetrain.getDistanceTo(targetPosition);
         return dist;
 
