@@ -8,16 +8,18 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,13 +40,12 @@ import frc.robot.commands.indexer.SpinBothIndexer;
 import frc.robot.commands.indexer.SpinStageOne;
 import frc.robot.commands.indexer.SpinStageTwo;
 import frc.robot.commands.indexer.StageOnePassive;
-import frc.robot.commands.intake.OscillateIntake;
 import frc.robot.commands.intake.ExtendIntake;
 import frc.robot.commands.intake.IntakeWhileShooting;
+import frc.robot.commands.intake.OscillateIntake;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.intake.Spintake;
 import frc.robot.commands.intake.Stoptake;
-import frc.robot.commands.intake.MoveIntake;
 import frc.robot.commands.intake.Unstucktake;
 import frc.robot.commands.shooter.BasicShoot;
 import frc.robot.commands.shooter.Pass;
@@ -201,7 +202,22 @@ public class RobotContainer {
         NamedCommands.registerCommand("Spin Both Indexer", m_SpinBothIndexer);
         
 
-        autoChooser = AutoBuilder.buildAutoChooser("Left Auto Trench");
+        autoChooser = new SendableChooser<>();
+
+        // Safe default: do nothing if the drive team forgets to pick an auto.
+        autoChooser.setDefaultOption("None", Commands.none());
+
+        // getAllAutoNames() lists every .auto file in deploy/pathplanner/autos.
+        for (String name : AutoBuilder.getAllAutoNames()) {
+            // Normal version, exactly as drawn in the PathPlanner GUI.
+            autoChooser.addOption(name, new PathPlannerAuto(name));
+
+            // Mirrored version: every path is reflected across the field's long
+            // centerline (y -> fieldSizeY - y) and every heading is negated.
+            // Left Trench -> Right Trench, still on the same alliance side.
+            autoChooser.addOption(mirroredLabel(name), new PathPlannerAuto(name, true));
+        }
+
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         
@@ -394,5 +410,43 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
         //return autoCommand;
+    }
+
+    //super fun auto naming thingy helper method
+    private static final Pattern SIDE_WORD =
+        Pattern.compile("(?<![A-Za-z])(left|right)(?![A-Za-z])", Pattern.CASE_INSENSITIVE);
+
+    /**
+     * Builds the chooser label for a mirrored auto.
+     *   "Left Trench Tested"  -> "Right Trench Tested"
+     *   "Right Sweep"         -> "Left Sweep"
+     *   "Left to Right Demo"  -> "Right to Left Demo"   (both words swap)
+     *   "Middle Test Auto"    -> "Middle Test Auto (Mirrored)"  (no side word)
+     */
+    private static String mirroredLabel(String name) {
+        // Remember whether we actually found a side word to swap.
+        boolean foundSide = SIDE_WORD.matcher(name).find();
+
+        // No left/right in the name, so just tag it as mirrored.
+        if (!foundSide) {
+            return name + " (Mirrored)";
+        }
+    
+        // Replace every left/right with its opposite, in a single pass so a
+        // replaced "Right" is never re-swapped back to "Left".
+        return SIDE_WORD.matcher(name).replaceAll(match -> {
+            String original = match.group();                 // text as the user typed it
+            boolean wasLeft = original.equalsIgnoreCase("left");
+            String opposite = wasLeft ? "right" : "left";    // lowercase base word
+
+            // Preserve the original capitalization style.
+            if (original.equals(original.toUpperCase())) {
+                return opposite.toUpperCase();               // "LEFT"  -> "RIGHT"
+            } else if (Character.isUpperCase(original.charAt(0))) {
+                return Character.toUpperCase(opposite.charAt(0)) + opposite.substring(1); // "Left" -> "Right"
+            } else {
+                return opposite;                             // "left"  -> "right"
+            }
+        });
     }
 }
