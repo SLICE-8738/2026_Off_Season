@@ -83,7 +83,7 @@
     "rotation": 80.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Left Trench Tested",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

@@ -1,0 +1,198 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.8715777777777785,
+        "y": 6.714722222222222
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.2321222222183144,
+        "y": 7.1434777777819205
+      },
+      "isLocked": false,
+      "linkedName": "Shoot Point Past Left Trench"
+    },
+    {
+      "anchor": {
+        "x": 3.9142333333294257,
+        "y": 7.4
+      },
+      "prevControl": {
+        "x": 3.3779346625115805,
+        "y": 7.4
+      },
+      "nextControl": {
+        "x": 5.122583735916398,
+        "y": 7.4
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.317433333329426,
+        "y": 7.4
+      },
+      "prevControl": {
+        "x": 4.450511536741235,
+        "y": 7.4309614927352925
+      },
+      "nextControl": {
+        "x": 5.59027777777387,
+        "y": 7.390255555555556
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.87286666666276,
+        "y": 6.363922222226365
+      },
+      "prevControl": {
+        "x": 5.857354875119334,
+        "y": 7.294629714831989
+      },
+      "nextControl": {
+        "x": 5.882611111107203,
+        "y": 5.779255555559698
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.804655555551648,
+        "y": 4.8243000000041425
+      },
+      "prevControl": {
+        "x": 5.721684600868774,
+        "y": 5.405096682784266
+      },
+      "nextControl": {
+        "x": 5.843633333329425,
+        "y": 4.551455555559698
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.071433333329426,
+        "y": 4.843788888893031
+      },
+      "prevControl": {
+        "x": 6.3795777777738705,
+        "y": 4.40528888889303
+      },
+      "nextControl": {
+        "x": 7.763288888884982,
+        "y": 5.282288888893032
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.0519444444405375,
+        "y": 6.70497777778192
+      },
+      "prevControl": {
+        "x": 7.44028574621568,
+        "y": 6.061787496716842
+      },
+      "nextControl": {
+        "x": 6.740122222218314,
+        "y": 7.221433333337476
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.982444444440537,
+        "y": 7.270155555559698
+      },
+      "prevControl": {
+        "x": 5.366155555551648,
+        "y": 7.260411111115254
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.8639004149377479,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 1.8290456431535236,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 3,
+      "rotationDegrees": 96.34019174591
+    },
+    {
+      "waypointRelativePos": 5,
+      "rotationDegrees": -150.66816042175245
+    },
+    {
+      "waypointRelativePos": 5.919502074688795,
+      "rotationDegrees": -50.46710229049076
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.3960297766749572,
+      "maxWaypointRelativePos": 0.9101736972705062,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Extend Intake",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Spin Intake",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "reversed": false,
+  "folder": "Left Trench Untested",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -65.0
+  },
+  "useDefaultConstraints": false
+}

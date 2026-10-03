@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.389322222222222,
-        "y": 7.153222222222222
+        "x": 6.389325249889918,
+        "y": 7.1532229250648
       },
       "isLocked": true,
       "linkedName": "Left Center Intake"
@@ -84,7 +84,7 @@
     "rotation": -58.63814985608646
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Left Trench Tested",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": -61.92751306414706
