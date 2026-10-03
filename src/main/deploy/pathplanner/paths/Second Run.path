@@ -121,7 +121,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Shoot Point Left Trench"
     }
   ],
   "rotationTargets": [
@@ -165,12 +165,6 @@
   "eventMarkers": [
     {
       "name": "Extend Intake",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Spin Intake",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": null

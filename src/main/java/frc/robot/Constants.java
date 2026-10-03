@@ -54,38 +54,38 @@ public final class Constants {
         }
 
         public static Pose2d getVirtualRed_TrenchLeft() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_LEFT, Rotation2d.kZero));
-        }
-
-        public static Pose2d getVirtualRed_TrenchRight() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_RIGHT, Rotation2d.kZero));
-        }
-
-        public static Pose2d getVirtualBlue_TrenchLeft() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_TRENCH_LEFT, Rotation2d.kZero));
         }
 
-        public static Pose2d getVirtualBlue_TrenchRight() {
+        public static Pose2d getVirtualRed_TrenchRight() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_TRENCH_RIGHT, Rotation2d.kZero));
         }
 
+        public static Pose2d getVirtualBlue_TrenchLeft() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_LEFT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualBlue_TrenchRight() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_RIGHT, Rotation2d.kZero));
+        }
+
         public static Pose2d getVirtualBlue_PassLeft() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_LEFT, Rotation2d.kZero));
-        }
-
-        public static Pose2d getVirtualBlue_PassRight() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_RIGHT, Rotation2d.kZero));
-        }
-
-        public static Pose2d getVirtualRed_PassLeft() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_LEFT, Rotation2d.kZero));
         }
 
-        public static Pose2d getVirtualRed_PassRight() {
+        public static Pose2d getVirtualBlue_PassRight() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_RIGHT, Rotation2d.kZero));
         }
-        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034+0.1, Rotation2d.kZero);
-        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034-0.1, Rotation2d.kZero);
+
+        public static Pose2d getVirtualRed_PassLeft() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_LEFT, Rotation2d.kZero));
+        }
+
+        public static Pose2d getVirtualRed_PassRight() {
+            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_RIGHT, Rotation2d.kZero));
+        }
+        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
         
         public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
         public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);

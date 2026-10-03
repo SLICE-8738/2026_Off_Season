@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.AutoAlign;
 import frc.robot.commands.drive.AutoAlignTrench;
 import frc.robot.commands.drive.SwerveX;
+import frc.robot.commands.drive.TrimDrivetrain;
 import frc.robot.commands.indexer.ReverseKicker;
 import frc.robot.commands.indexer.SpinBothIndexer;
 import frc.robot.commands.indexer.SpinStageOne;
@@ -92,6 +93,8 @@ public class RobotContainer {
     public final SpinStageOne m_stopStageOne;
     public final StageOnePassive m_stageOnePassive;
     public final SpinBothIndexer m_SpinBothIndexer;
+
+
 
     /* Shooter */
     
@@ -160,6 +163,8 @@ public class RobotContainer {
         m_Unstucktake     = new Unstucktake(m_Intake);
 
 
+        /* Trim */
+
         // Removed the conditional command because it is not working properly, and is overriding manual controls
         m_IntakeCommand   = new ExtendIntake(m_Intake);//new ConditionalCommand(m_ExtendIntake.andThen(m_Spintake), m_Stoptake, () -> (m_Intake.isStowed() == true));
 
@@ -205,17 +210,25 @@ public class RobotContainer {
         autoChooser = new SendableChooser<>();
 
         // Safe default: do nothing if the drive team forgets to pick an auto.
-        autoChooser.setDefaultOption("None", Commands.none());
+        autoChooser.setDefaultOption("Middle Test Auto", Commands.none());
 
         // getAllAutoNames() lists every .auto file in deploy/pathplanner/autos.
         for (String name : AutoBuilder.getAllAutoNames()) {
+
+             if (name == "Middle Test Auto") {
+                autoChooser.setDefaultOption(name, new PathPlannerAuto(name));
+            } else {
+                 autoChooser.addOption(name, new PathPlannerAuto(name));
+            }
+
             // Normal version, exactly as drawn in the PathPlanner GUI.
-            autoChooser.addOption(name, new PathPlannerAuto(name));
 
             // Mirrored version: every path is reflected across the field's long
             // centerline (y -> fieldSizeY - y) and every heading is negated.
             // Left Trench -> Right Trench, still on the same alliance side.
             autoChooser.addOption(mirroredLabel(name), new PathPlannerAuto(name, true));
+
+           
         }
 
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -254,6 +267,12 @@ public class RobotContainer {
 
         // Reset the field-centric heading on minus press.
         Buttons.controller1_minusButton.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
+        
+        Buttons.controller1_leftBumper.whileTrue(new TrimDrivetrain(m_drivetrain, Math.PI/2));
+        Buttons.controller1_rightBumper.whileTrue(new TrimDrivetrain(m_drivetrain, -Math.PI/2));
+
+       // Buttons.controller1_YButton.whileTrue(new Shoot(m_Shooter, m_drivetrain));
+        
 
         /* Shooter */
 
@@ -273,13 +292,11 @@ public class RobotContainer {
                         )
                     )
                 ),
-                m_shoot.alongWith(
-                    new SequentialCommandGroup(
-                        new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController)
-                            .until(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
+                new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController).alongWith(
+                        m_shoot,
                         new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
                             new SpinBothIndexer(m_Indexer),
-                            new SwerveX(m_drivetrain), //.until(() -> {
+                            //new SwerveX(m_drivetrain), //.until(() -> {
                             //     double joystickX = Math.abs(driverController.getRawAxis(0));
                             //     double joystickY = Math.abs(driverController.getRawAxis(1));
                             //     double joystickRot = Math.abs(driverController.getRawAxis(4));
@@ -290,8 +307,7 @@ public class RobotContainer {
                                 new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter
                             )
                         )
-                    )
-                ),                  
+                    ),                  
             () -> m_drivetrain.detectOutsideAlliance())); 
         
         /* Intake */
@@ -310,7 +326,7 @@ public class RobotContainer {
 
         /* Indexer */
 
-        Buttons.controller1_YButton.whileTrue(new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
+        //Buttons.controller1_YButton.whileTrue(new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
         Buttons.controller1_BButton.whileTrue(new SpinStageTwo(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
         
         Buttons.controller1_povUp.whileTrue(m_ExtendIntake);

@@ -1,0 +1,82 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.982444444440537,
+        "y": 7.270155555559698
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.982444444440537,
+        "y": 7.270155555559698
+      },
+      "isLocked": false,
+      "linkedName": "Shoot Point Left Trench"
+    },
+    {
+      "anchor": {
+        "x": 5.941041369472182,
+        "y": 7.250256776034237
+      },
+      "prevControl": {
+        "x": 4.103569557569004,
+        "y": 7.250256776034237
+      },
+      "nextControl": {
+        "x": 6.575035663338087,
+        "y": 7.250256776034237
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.247845934379456,
+        "y": 6.745649072753209
+      },
+      "prevControl": {
+        "x": 6.9631954350927225,
+        "y": 7.314950071326675
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -100.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Extend Intake",
+      "waypointRelativePos": 1.372045914922336,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 110.0
+  },
+  "reversed": false,
+  "folder": "Left Trench Untested",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}
