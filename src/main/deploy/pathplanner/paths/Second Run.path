@@ -167,13 +167,12 @@
       "name": "Extend Intake",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "Spin Intake",
-      "waypointRelativePos": 0.05,
-      "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Extend Intake"
+        }
+      }
     }
   ],
   "globalConstraints": {

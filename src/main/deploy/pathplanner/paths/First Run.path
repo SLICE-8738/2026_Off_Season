@@ -198,24 +198,11 @@
       "waypointRelativePos": 0.23325062034739252,
       "endWaypointRelativePos": null,
       "command": {
-        "type": "parallel",
+        "type": "named",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Spin Intake"
-              }
-            }
-          ]
+          "name": "Extend Intake"
         }
       }
-    },
-    {
-      "name": "Spin Intake",
-      "waypointRelativePos": 0.3592167454422671,
-      "endWaypointRelativePos": null,
-      "command": null
     }
   ],
   "globalConstraints": {
