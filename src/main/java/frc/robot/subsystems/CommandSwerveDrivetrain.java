@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -116,6 +118,24 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     ShuffleboardTab driverTab;
     ComplexWidget fieldWidget;
     public Field2d m_Field;
+
+    /*
+     * Limelight names. These must match the camera names configured on each Limelight
+     * (they are the NetworkTables table names LimelightHelpers reads from).
+     * Public so ShuffleboardData can build its "Limelight Debugging" tab from them.
+     */
+    public static final String LL_TRENCH = "limelight-trench";
+    public static final String LL_HUB = "limelight-hub";
+
+    /*
+     * Vision debugging state, keyed by Limelight name. The drivetrain fills these in as it
+     * reads the cameras; ShuffleboardData reads them to draw the "Limelight Debugging" tab
+     * and writes the per-camera Fuse switch back in. The drivetrain itself knows nothing
+     * about the dashboard.
+     */
+    private final Map<String, PoseEstimate> m_latestVision = new HashMap<>();   // raw reading, before any filtering
+    private final Map<String, String> m_visionStatus = new HashMap<>();         // e.g. "Fusing", "No tags"
+    private final Map<String, Boolean> m_visionFuseEnabled = new HashMap<>();   // missing entry = enabled
 
     SwerveModuleConstants<?, ?, ?>[] swerveModules;
 
@@ -397,18 +417,73 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         super.resetPose(pose);
     }
 
+    // -------------------------------------------------------------------------
+    // Vision debugging hooks (used by ShuffleboardData's "Limelight Debugging" tab)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @return the most recent RAW estimate read from this Limelight (before any filtering),
+     *         or null if it hasn't been read yet. May have tagCount == 0.
+     */
+    public PoseEstimate getLatestVisionEstimate(String limelightName) {
+        return m_latestVision.get(limelightName);
+    }
+
+    /** @return short human-readable state of this camera, e.g. "Fusing" or "No tags". */
+    public String getVisionStatus(String limelightName) {
+        return m_visionStatus.getOrDefault(limelightName, "Starting");
+    }
+
+    /**
+     * Turns this camera's pose corrections on or off.
+     * OFF = the camera is still read and displayed, but never fused into the robot pose.
+     */
+    public void setVisionFuseEnabled(String limelightName, boolean enabled) {
+        m_visionFuseEnabled.put(limelightName, enabled);
+    }
+
+    /**
+     * Reads one Limelight, records the raw reading for the debug tab, and (if allowed)
+     * fuses the pose into the drivetrain's pose estimator.
+     *
+     * The fusing math is unchanged from before. What's new: every early exit records WHY
+     * (the status text), and a camera's Fuse switch can stop its corrections without redeploying.
+     */
     private void updateVisionWithCamera(String limelightName){
+        // NOTE: this orientation is only used by MegaTag2. The call below reads
+        // MegaTag1 ("botpose_wpired")
         LimelightHelpers.SetRobotOrientation(limelightName, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
         LimelightHelpers.PoseEstimate vision1 = LimelightHelpers.getBotPoseEstimate_wpiRed(limelightName);
 
-        if (vision1 == null || vision1.tagCount == 0) return;
+        // Always record the raw reading first, even if we end up not using it. That is the
+        // whole point of the debug tab. (A null/empty estimate makes the tab clear its ghost.)
+        m_latestVision.put(limelightName, vision1);
 
-        if (Math.toDegrees(Math.abs(getState().Speeds.omegaRadiansPerSecond)) > 360) return;
+        // This camera's Fuse switch is OFF: it stays visible on the dashboard but must not move
+        // the robot pose. Checked BEFORE the tag check so the switch is visibly working even when
+        // the camera sees nothing (e.g. in simulation).
+        if (!m_visionFuseEnabled.getOrDefault(limelightName, true)) {
+            m_visionStatus.put(limelightName, "Switched off");
+            return;
+        }
 
+        if (vision1 == null || vision1.tagCount == 0) {
+            m_visionStatus.put(limelightName, "No tags");
+            return;
+        }
+
+        // Original guard: ignore vision while spinning faster than 360 deg/s (blurry/inaccurate).
+        if (Math.toDegrees(Math.abs(getState().Speeds.omegaRadiansPerSecond)) > 360) {
+            m_visionStatus.put(limelightName, "Rejected: spinning fast");
+            return;
+        }
+
+        // ---- Original fusing logic, unchanged ----
         double avgDist = vision1.avgTagDist;
         double xyStdDev = 0.3 + (avgDist * 0.1);
 
         addVisionMeasurement(vision1.pose, vision1.timestampSeconds, VecBuilder.fill(xyStdDev, xyStdDev, 10000.0));
+        m_visionStatus.put(limelightName, "Fusing");
     }
 
     @Override
@@ -459,8 +534,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             }
         }*/
         m_Field.setRobotPose(getState().Pose);
-        updateVisionWithCamera("limelight-trench");
-        updateVisionWithCamera("limelight-hub");}
+        updateVisionWithCamera(LL_TRENCH);
+        updateVisionWithCamera(LL_HUB);}
 
         /*
         var limelightPose2 = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight-hub");
