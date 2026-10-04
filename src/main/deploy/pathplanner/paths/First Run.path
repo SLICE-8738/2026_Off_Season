@@ -210,6 +210,12 @@
           ]
         }
       }
+    },
+    {
+      "name": "Spin Intake",
+      "waypointRelativePos": 0.3592167454422671,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {

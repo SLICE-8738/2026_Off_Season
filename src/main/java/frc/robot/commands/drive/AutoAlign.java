@@ -71,6 +71,8 @@ public class AutoAlign extends Command {
             case PASS_LEFT -> isBlue ? Constants.AlignTargets.getVirtualBlue_PassLeft() : Constants.AlignTargets.getVirtualRed_PassLeft();
             case PASS_RIGHT -> isBlue ? Constants.AlignTargets.getVirtualBlue_PassRight() : Constants.AlignTargets.getVirtualRed_PassRight();
         };
+        
+
 
         //double dist = m_drivetrain.getDistanceTo(targetPosition);  doesnt do anything
     }

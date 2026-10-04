@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.894744444444445,
-        "y": 7.250666666666666
+        "x": 2.7840085592011405,
+        "y": 6.810342368045649
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.440684117926772,
-        "y": 8.649897162783326
+        "x": 3.329948232683468,
+        "y": 8.209572864162308
       },
       "isLocked": false,
       "linkedName": "First Shot"
@@ -73,7 +73,7 @@
   "folder": "Left Trench Tested",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -70.0
   },
   "useDefaultConstraints": true
 }

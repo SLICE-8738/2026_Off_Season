@@ -271,7 +271,7 @@ public class RobotContainer {
         Buttons.controller1_leftBumper.whileTrue(new TrimDrivetrain(m_drivetrain, Math.PI/2));
         Buttons.controller1_rightBumper.whileTrue(new TrimDrivetrain(m_drivetrain, -Math.PI/2));
 
-       // Buttons.controller1_YButton.whileTrue(new Shoot(m_Shooter, m_drivetrain));
+       Buttons.controller1_YButton.whileTrue(new SpinBothIndexer(m_Indexer));
         
 
         /* Shooter */
@@ -294,14 +294,11 @@ public class RobotContainer {
                 ),
                 new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController).alongWith(
                         m_shoot,
-                        new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
-                            new SpinBothIndexer(m_Indexer),
-                            //new SwerveX(m_drivetrain), //.until(() -> {
-                            //     double joystickX = Math.abs(driverController.getRawAxis(0));
-                            //     double joystickY = Math.abs(driverController.getRawAxis(1));
-                            //     double joystickRot = Math.abs(driverController.getRawAxis(4));
-                            // return joystickX > 0.1 || joystickY > 0.1 || joystickRot > 0.1;
-                            // }),              // X-lock while the indexer feeds the shooter
+                        new ParallelCommandGroup(
+                            new SequentialCommandGroup(    
+                                new WaitCommand(2),           //parralell command group to spin indexer and intake thus shooting fuel
+                                new SpinBothIndexer(m_Indexer)
+                            ),
                             new SequentialCommandGroup(
                                 new WaitCommand(0.25), 
                                 new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter

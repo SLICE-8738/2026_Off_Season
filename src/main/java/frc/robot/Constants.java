@@ -46,11 +46,11 @@ public final class Constants {
         public static final Translation2d RED_HUB = new Translation2d(11.915, 4.034);
         */
         public static Pose2d getVirtualRed_Hub() {
-            return ShotCalculator.getInstance().getVirtualTarget(Constants.AlignTargets.RED_HUB);
-        }
+            return Constants.AlignTargets.RED_HUB;
+        }   
 
         public static Pose2d getVirtualBlue_Hub() {
-            return ShotCalculator.getInstance().getVirtualTarget(Constants.AlignTargets.BLUE_HUB);
+            return Constants.AlignTargets.BLUE_HUB;
         }
 
         public static Pose2d getVirtualRed_TrenchLeft() {
@@ -84,8 +84,8 @@ public final class Constants {
         public static Pose2d getVirtualRed_PassRight() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_RIGHT, Rotation2d.kZero));
         }
-        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
-        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
+        public static final Pose2d RED_HUB = new Pose2d(4.625594, 4.034536, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(11.915394, 4.034536, Rotation2d.kZero);
         
         public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
         public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);
@@ -216,8 +216,8 @@ public final class Constants {
         public static final double EXTENDER_KD = 0.035;
         public static final double EXTENDER_KG = 0.0; // FF for gravity, most likely don't need this
         public static final double EXTENDER_RATIO = 19.0/6.0; // 3.166 repeating ||  // 50.0 / 9.0; // 5.55 repeating
-        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 70;
-        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 50;
+        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 50;
+        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 40;
         public static final double POSITION_CONVERSION_FACTOR = (0.0254 * Math.PI); // (pitch diameter of pinion * pi)
         public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR; // meters per second
 
@@ -232,7 +232,7 @@ public final class Constants {
         public static final double ROLLER_KP = 100.0;
         public static final double ROLLER_KI = 0.0;
         public static final double ROLLER_KD = 10.0;
-        public static final int ROLLER_STATOR_CURRENT_LIMIT = 70;
+        public static final int ROLLER_STATOR_CURRENT_LIMIT = 50;
         public static final int ROLLER_SUPPLY_CURRENT_LIMIT = 40;
     }
 

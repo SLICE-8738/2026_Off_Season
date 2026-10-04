@@ -168,6 +168,12 @@
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": null
+    },
+    {
+      "name": "Spin Intake",
+      "waypointRelativePos": 0.05,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {
