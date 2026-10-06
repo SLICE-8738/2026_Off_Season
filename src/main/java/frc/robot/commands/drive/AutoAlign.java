@@ -52,6 +52,7 @@ public class AutoAlign extends Command {
 
     public AutoAlign(CommandSwerveDrivetrain drivetrain,
             Target target, XboxController driverController) {
+        
         m_drivetrain = drivetrain;
         m_target = target;
         m_driverController = driverController;
@@ -65,6 +66,7 @@ public class AutoAlign extends Command {
 
     @Override
     public void initialize() {
+        m_drivetrain.resetHeadingPID();
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
         targetPosition = switch (m_target) {
             case HUB -> isBlue ? Constants.AlignTargets.getVirtualBlue_Hub(): Constants.AlignTargets.getVirtualRed_Hub();
