@@ -370,6 +370,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     /**
+     * Resets heading PID to prevent integral error build up during the match.
+     */
+    public void resetHeadingPID() {
+        headingPID.reset();
+    } 
+
+    /**
      * Returns heading PID output (rad/s) toward the given target.
      */
     public double getHeadingPIDOutput(Pose2d target) {
