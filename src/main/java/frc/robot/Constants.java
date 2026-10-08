@@ -323,8 +323,6 @@ public final class Constants {
         // Robot dimensions
         public static final double SHOOTER_HEIGHT = 1.7891; // Feet
         public static final double FLYWHEEL_RADIUS = 0.1667; // Feet
-        public static final double LIMELIGHT_ANGLE = 55.0; // Degrees
-        public static final double LIMELIGHT_HEIGHT = Units.inchesToMeters(15.25); // Metres
     }
 
     public static class FieldConstants {

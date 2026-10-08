@@ -93,6 +93,7 @@ public class ShuffleboardData extends SubsystemBase {
         SimpleWidget ambiguity;    // worst tag ambiguity, 0..1 (-1 = no data)
         SimpleWidget poseX;        // raw camera pose X, meters
         SimpleWidget poseY;        // raw camera pose Y, meters
+
     }
 
     private final LimelightWidgets[] limelightWidgets = new LimelightWidgets[LIMELIGHT_NAMES.length];
