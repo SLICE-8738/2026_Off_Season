@@ -289,12 +289,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      */
     public boolean detectOutsideAlliance(){
         Pose2d robotPose = getPose();
-        if (DriverStation.getAlliance().get() == Alliance.Red){
-            if (robotPose.getMeasureX().in(Meters) >= Constants.FieldConstants.RED_OUTSIDE_ALLIANCE_ZONE){
+        if (DriverStation.getAlliance().get() == Alliance.Red){ //checks if its in the red alliance and then uses the constants to find if its within range
+            if (robotPose.getMeasureX().in(Meters) >= Constants.FieldConstants.RED_OUTSIDE_ALLIANCE_ZONE){ 
                 return true;
             }
             return false;
-        } else {
+        } else { // else its the blue alliance
             if (robotPose.getMeasureX().in(Meters) <= Constants.FieldConstants.BLUE_OUTSIDE_ALLIANCE_ZONE){
                 return true;
             }
@@ -366,7 +366,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Translation2d robotPos = getPose().getTranslation();
         return Rotation2d.fromRadians(Math.atan2(
                 target.getY() - robotPos.getY(),
-                target.getX() - robotPos.getX())).plus(Rotation2d.fromRadians(0.75 * Math.PI));
+                target.getX() - robotPos.getX())).plus(Rotation2d.fromRadians(Math.PI));
     }
 
     /**

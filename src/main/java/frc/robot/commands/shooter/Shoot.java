@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.commands.drive.SwerveX;
@@ -49,6 +50,8 @@ public class Shoot extends Command {
   @Override
   public void execute() {
     double distance = m_Shooter.distanceFromHub();//m_drivetrain.getDistanceTo(Constants.AlignTargets.RED_HUB);
+    
+    SmartDashboard.putNumber("Distance", distance);
     m_ShuffleboardDistance.getEntry().setDouble(distance);
     m_ShuffleboardGoodSpeed.getEntry().setDouble(m_Shooter.getGoodSpeed());
     // TODO uncomment and recomment depending on which mode the shooter is in

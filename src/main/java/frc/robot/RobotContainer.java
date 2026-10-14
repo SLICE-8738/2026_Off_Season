@@ -291,18 +291,13 @@ public class RobotContainer {
                                                                                           // intake to compress fuel
                                                                                           // into the shooter
                                                 )))),
-                        new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController).alongWith(
-                                m_shoot,
-                                new ParallelCommandGroup(
-                                        new SequentialCommandGroup(
-                                                new WaitCommand(2), // parralell command group to spin indexer and
-                                                                    // intake thus shooting fuel
-                                                new SpinBothIndexer(m_Indexer)),
-                                        new SequentialCommandGroup(
-                                                new WaitCommand(0.25),
-                                                new IntakeWhileShooting(m_Intake) // command to bring in the intake to
-                                                                                  // compress fuel into the shooter
-                                        ))),
+                        m_shoot.alongWith(m_AutoAlignHub,
+                                new SequentialCommandGroup(
+                                        new WaitCommand(2), 
+                                        new ParallelCommandGroup(
+                                                new SpinBothIndexer(m_Indexer), 
+                                                new SequentialCommandGroup(
+                                                        new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))),
                         () -> m_drivetrain.detectOutsideAlliance()));
 
         /* Intake */

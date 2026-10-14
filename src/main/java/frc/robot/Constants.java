@@ -343,8 +343,8 @@ public final class Constants {
         public static final double SPEED_SHOOTER_AT = 5; // Seconds
 
         // Distances to check if we are past the alliance zone
-        public static final double RED_OUTSIDE_ALLIANCE_ZONE = 5.209; // Metres
-        public static final double BLUE_OUTSIDE_ALLIANCE_ZONE = 11.305; // Metres
+        public static final double BLUE_OUTSIDE_ALLIANCE_ZONE = 5.209; // Metres
+        public static final double RED_OUTSIDE_ALLIANCE_ZONE = 11.305; // Metres
 
     }
 
