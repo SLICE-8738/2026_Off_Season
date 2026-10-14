@@ -84,8 +84,8 @@ public final class Constants {
         public static Pose2d getVirtualRed_PassRight() {
             return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_RIGHT, Rotation2d.kZero));
         }
-        public static final Pose2d RED_HUB = new Pose2d(4.625594, 4.034536, Rotation2d.kZero);
-        public static final Pose2d BLUE_HUB = new Pose2d(11.915394, 4.034536, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(4.625594, 4.034536, Rotation2d.kZero);
+        public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034536, Rotation2d.kZero);
         
         public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
         public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);

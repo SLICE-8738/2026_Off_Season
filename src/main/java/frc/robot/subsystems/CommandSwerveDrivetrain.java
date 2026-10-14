@@ -366,7 +366,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Translation2d robotPos = getPose().getTranslation();
         return Rotation2d.fromRadians(Math.atan2(
                 target.getY() - robotPos.getY(),
-                target.getX() - robotPos.getX()));
+                target.getX() - robotPos.getX())).plus(Rotation2d.fromRadians(0.75 * Math.PI));
     }
 
     /**
@@ -380,6 +380,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * Returns heading PID output (rad/s) toward the given target.
      */
     public double getHeadingPIDOutput(Pose2d target) {
+        SmartDashboard.putNumber("Heading Current Radians", getPose().getRotation().getRadians());
+        SmartDashboard.putNumber("Heading Target Radians", getTargetHeading(target.getTranslation()).getRadians());
         return headingPID.calculate(
                 getPose().getRotation().getRadians(),
                 getTargetHeading(target.getTranslation()).getRadians());
@@ -460,7 +462,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         // NOTE: this orientation is only used by MegaTag2. The call below reads
         // MegaTag1 ("botpose_wpired")
         LimelightHelpers.SetRobotOrientation(limelightName, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate vision1 = LimelightHelpers.getBotPoseEstimate_wpiRed(limelightName);
+        LimelightHelpers.PoseEstimate vision1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightName);
 
         // Always record the raw reading first, even if we end up not using it. That is the
         // whole point of the debug tab. (A null/empty estimate makes the tab clear its ghost.)

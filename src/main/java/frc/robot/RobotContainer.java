@@ -20,6 +20,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -83,7 +84,7 @@ public class RobotContainer {
     public final RetractIntake m_RetractIntake;
     public final Spintake m_Spintake;
     public final Stoptake m_Stoptake;
-    public final Unstucktake m_Unstucktake; 
+    public final Unstucktake m_Unstucktake;
     public final OscillateIntake m_OscillateIntake;
     public final ExtendIntake m_IntakeCommand;
 
@@ -94,10 +95,8 @@ public class RobotContainer {
     public final StageOnePassive m_stageOnePassive;
     public final SpinBothIndexer m_SpinBothIndexer;
 
-
-
     /* Shooter */
-    
+
     public final Shoot m_shoot;
     public final Pass m_Pass;
     public final BasicShoot m_BasicShootHub;
@@ -115,26 +114,28 @@ public class RobotContainer {
     private Trigger almostActive;
 
     /* Other Commands */
-    //private Command autoCommand;
+    // private Command autoCommand;
 
     // =====================
     // Generated Swerve Drivetrain Stuff
     // =====================
 
-    private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.80).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
+                                                                                        // speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.80).in(RadiansPerSecond); // 3/4 of a rotation per second
+                                                                                      // max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    
+
     /* Shuffleboard */
     private ShuffleboardData m_ShuffleboardData;
-    
+
     public RobotContainer() {
 
-        //Buttons.controller1.setRumble(RumbleType.kBothRumble, 1);
+        // Buttons.controller1.setRumble(RumbleType.kBothRumble, 1);
 
         // ==========================
         // Subsystems
@@ -143,8 +144,11 @@ public class RobotContainer {
         m_Intake = new Intake();
         m_Indexer = new Indexer();
         m_Shooter = new Shooter(m_drivetrain);
-        
-        
+
+        // Shuffleboard.getTab("Debug").add("Red Hub Pose",
+        // Constants.AlignTargets.RED_HUB);
+        // Shuffleboard.getTab("Debug").add("Blue Hub Pose",
+        // Constants.AlignTargets.BLUE_HUB);
 
         // ==========================
         // Commands
@@ -155,18 +159,19 @@ public class RobotContainer {
         m_AutoAlignTrench = new AutoAlignTrench(m_drivetrain, driverController);
 
         /* Intake */
-        m_ExtendIntake    = new ExtendIntake(m_Intake);
-        m_RetractIntake   = new RetractIntake(m_Intake);
-        m_Spintake        = new Spintake(m_Intake);
+        m_ExtendIntake = new ExtendIntake(m_Intake);
+        m_RetractIntake = new RetractIntake(m_Intake);
+        m_Spintake = new Spintake(m_Intake);
         m_OscillateIntake = new OscillateIntake(m_Intake);
-        m_Stoptake        = new Stoptake(m_Intake);
-        m_Unstucktake     = new Unstucktake(m_Intake);
-
+        m_Stoptake = new Stoptake(m_Intake);
+        m_Unstucktake = new Unstucktake(m_Intake);
 
         /* Trim */
 
-        // Removed the conditional command because it is not working properly, and is overriding manual controls
-        m_IntakeCommand   = new ExtendIntake(m_Intake);//new ConditionalCommand(m_ExtendIntake.andThen(m_Spintake), m_Stoptake, () -> (m_Intake.isStowed() == true));
+        // Removed the conditional command because it is not working properly, and is
+        // overriding manual controls
+        m_IntakeCommand = new ExtendIntake(m_Intake);// new ConditionalCommand(m_ExtendIntake.andThen(m_Spintake),
+                                                     // m_Stoptake, () -> (m_Intake.isStowed() == true));
 
         /* Indexer */
         m_spinStageOne = new SpinStageOne(m_Indexer, 1);
@@ -180,21 +185,23 @@ public class RobotContainer {
         m_BasicShootHub = new BasicShoot(m_Shooter);
         m_Pass = new Pass(m_Shooter);
 
-        m_Shooter.setDefaultCommand(m_Shooter.run(()-> m_Shooter.defaultIdleState(m_drivetrain.detectOutsideAlliance())));
-        
+        m_Shooter.setDefaultCommand(
+                m_Shooter.run(() -> m_Shooter.defaultIdleState(m_drivetrain.detectOutsideAlliance())));
 
         /* Autonomous */
 
         /*
-         * autoCommand = new ParallelCommandGroup(new BasicShoot(m_Shooter), 
-         *    new SequentialCommandGroup(new WaitCommand(6.7),
-         *         new ParallelCommandGroup(new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED), new SpinStageTwo(m_Indexer, Constants.IndexerConstants.STAGE_TWO_INTAKE_SPEED))));
-        */
-
+         * autoCommand = new ParallelCommandGroup(new BasicShoot(m_Shooter),
+         * new SequentialCommandGroup(new WaitCommand(6.7),
+         * new ParallelCommandGroup(new SpinStageOne(m_Indexer,
+         * Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED), new
+         * SpinStageTwo(m_Indexer,
+         * Constants.IndexerConstants.STAGE_TWO_INTAKE_SPEED))));
+         */
 
         /*
-        TODO more auto stuff to figure the heck out of
-        */
+         * TODO more auto stuff to figure the heck out of
+         */
         NamedCommands.registerCommand("Reset Gyro", m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
         NamedCommands.registerCommand("Intake", m_IntakeCommand);
         NamedCommands.registerCommand("Spin Stage One", m_spinStageOne);
@@ -205,7 +212,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot", m_shoot);
         NamedCommands.registerCommand("Auto Align Hub", m_AutoAlignHub);
         NamedCommands.registerCommand("Spin Both Indexer", m_SpinBothIndexer);
-        
 
         autoChooser = new SendableChooser<>();
 
@@ -215,10 +221,10 @@ public class RobotContainer {
         // getAllAutoNames() lists every .auto file in deploy/pathplanner/autos.
         for (String name : AutoBuilder.getAllAutoNames()) {
 
-             if (name == "Middle Test Auto") {
+            if (name == "Middle Test Auto") {
                 autoChooser.setDefaultOption(name, new PathPlannerAuto(name));
             } else {
-                 autoChooser.addOption(name, new PathPlannerAuto(name));
+                autoChooser.addOption(name, new PathPlannerAuto(name));
             }
 
             // Normal version, exactly as drawn in the PathPlanner GUI.
@@ -228,15 +234,11 @@ public class RobotContainer {
             // Left Trench -> Right Trench, still on the same alliance side.
             autoChooser.addOption(mirroredLabel(name), new PathPlannerAuto(name, true));
 
-           
         }
 
         SmartDashboard.putData("Auto Mode", autoChooser);
 
-        
-        
-
-        //autoChooser = AutoBuilder.buildAutoChooser("Left Auto Trench");
+        // autoChooser = AutoBuilder.buildAutoChooser("Left Auto Trench");
 
         /* Triggers */
         driveIntakeTrigger = new Trigger(() -> m_Intake.getCurrentCommand() != null);
@@ -246,17 +248,15 @@ public class RobotContainer {
         controllerRumbleTrigger = new Trigger(() -> m_Shooter.isHubAlmostActive());
         almostActive = new Trigger(() -> m_Shooter.isHubAlmostActive());
 
-
         CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
 
-        m_ShuffleboardData = new ShuffleboardData(m_drivetrain, m_Intake, m_Indexer ,m_Shooter);
+        m_ShuffleboardData = new ShuffleboardData(m_drivetrain, m_Intake, m_Indexer, m_Shooter);
 
         configureBindings();
-        
+
     }
 
     private void configureBindings() {
-
 
         // ================
         // Driver Controls
@@ -267,93 +267,102 @@ public class RobotContainer {
 
         // Reset the field-centric heading on minus press.
         Buttons.controller1_minusButton.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
-        
-        Buttons.controller1_leftBumper.whileTrue(new TrimDrivetrain(m_drivetrain, Math.PI/2));
-        Buttons.controller1_rightBumper.whileTrue(new TrimDrivetrain(m_drivetrain, -Math.PI/2));
 
-       Buttons.controller1_YButton.whileTrue(new SpinBothIndexer(m_Indexer));
-        
+        Buttons.controller1_leftBumper.whileTrue(new TrimDrivetrain(m_drivetrain, Math.PI / 2));
+        Buttons.controller1_rightBumper.whileTrue(new TrimDrivetrain(m_drivetrain, -Math.PI / 2));
+
+        Buttons.controller1_YButton.whileTrue(new SpinBothIndexer(m_Indexer));
 
         /* Shooter */
 
-        
-         Buttons.controller1_RightTrigger.whileTrue(
-            new ConditionalCommand(
-                m_Pass.alongWith(
-                    m_AutoAlignTrench,                              //aligns to trench
-                    new SequentialCommandGroup(
-                        Commands.waitUntil(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
-                        new ParallelCommandGroup(                   //parralell command group to spin indexer and intake thus shooting fuel
-                            new SpinBothIndexer(m_Indexer), 
-                            new SequentialCommandGroup(
-                                new WaitCommand(0.25),
-                                new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter
-                            )
-                        )
-                    )
-                ),
-                new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController).alongWith(
-                        m_shoot,
-                        new ParallelCommandGroup(
-                            new SequentialCommandGroup(    
-                                new WaitCommand(2),           //parralell command group to spin indexer and intake thus shooting fuel
-                                new SpinBothIndexer(m_Indexer)
-                            ),
-                            new SequentialCommandGroup(
-                                new WaitCommand(0.25), 
-                                new IntakeWhileShooting(m_Intake)   //command to bring in the intake to compress fuel into the shooter
-                            )
-                        )
-                    ),                  
-            () -> m_drivetrain.detectOutsideAlliance())); 
-        
+        Buttons.controller1_RightTrigger.whileTrue(
+                new ConditionalCommand(
+                        m_Pass.alongWith(
+                                m_AutoAlignTrench, // aligns to trench
+                                new SequentialCommandGroup(
+                                        Commands.waitUntil(
+                                                () -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
+                                        new ParallelCommandGroup( // parralell command group to spin indexer and intake
+                                                                  // thus shooting fuel
+                                                new SpinBothIndexer(m_Indexer),
+                                                new SequentialCommandGroup(
+                                                        new WaitCommand(0.25),
+                                                        new IntakeWhileShooting(m_Intake) // command to bring in the
+                                                                                          // intake to compress fuel
+                                                                                          // into the shooter
+                                                )))),
+                        new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController).alongWith(
+                                m_shoot,
+                                new ParallelCommandGroup(
+                                        new SequentialCommandGroup(
+                                                new WaitCommand(2), // parralell command group to spin indexer and
+                                                                    // intake thus shooting fuel
+                                                new SpinBothIndexer(m_Indexer)),
+                                        new SequentialCommandGroup(
+                                                new WaitCommand(0.25),
+                                                new IntakeWhileShooting(m_Intake) // command to bring in the intake to
+                                                                                  // compress fuel into the shooter
+                                        ))),
+                        () -> m_drivetrain.detectOutsideAlliance()));
+
         /* Intake */
-        
+
         Buttons.controller1_LeftTrigger.onTrue(
-            m_ExtendIntake.alongWith(
-                new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_PASSIVE_SPEED),
-                new ReverseKicker(m_Indexer)
-                )
-            );
-        Buttons.controller1_AButton.onTrue(new ParallelRaceGroup(m_RetractIntake, new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED), new ReverseKicker(m_Indexer)));
-        
+                m_ExtendIntake.alongWith(
+                        new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_PASSIVE_SPEED),
+                        new ReverseKicker(m_Indexer)));
+        Buttons.controller1_AButton.onTrue(new ParallelRaceGroup(m_RetractIntake,
+                new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED),
+                new ReverseKicker(m_Indexer)));
+
         Buttons.controller1_povRight.whileTrue(m_Unstucktake);
 
         Buttons.controller1_XButton.whileTrue(new SwerveX(m_drivetrain));
 
         /* Indexer */
 
-        //Buttons.controller1_YButton.whileTrue(new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
-        Buttons.controller1_BButton.whileTrue(new SpinStageTwo(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
-        
+        // Buttons.controller1_YButton.whileTrue(new SpinStageOne(m_Indexer,
+        // Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
+        Buttons.controller1_BButton
+                .whileTrue(new SpinStageTwo(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
+
         Buttons.controller1_povUp.whileTrue(m_ExtendIntake);
         Buttons.controller1_povDown.whileTrue(m_RetractIntake);
 
-        /*Buttons.controller1_rightBumper.whileTrue(m_Pass.alongWith(m_AutoAlignTrench, new SequentialCommandGroup(
-                new WaitCommand(2), 
-                    new ParallelCommandGroup(
-                        new SpinBothIndexer(m_Indexer), 
-                            new SequentialCommandGroup(
-                                new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))));*/
+        /*
+         * Buttons.controller1_rightBumper.whileTrue(m_Pass.alongWith(m_AutoAlignTrench,
+         * new SequentialCommandGroup(
+         * new WaitCommand(2),
+         * new ParallelCommandGroup(
+         * new SpinBothIndexer(m_Indexer),
+         * new SequentialCommandGroup(
+         * new WaitCommand(0.25), new IntakeWhileShooting(m_Intake))))));
+         */
 
-        
-        almostActive.onTrue(new SequentialCommandGroup(Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kLeftRumble, 1.0)), new WaitCommand(1.0), Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kLeftRumble, 0))));
-        almostActive.onFalse(new SequentialCommandGroup(Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kRightRumble, 1.0)), new WaitCommand(1.0), Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kRightRumble, 0))));
+        almostActive.onTrue(new SequentialCommandGroup(
+                Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kLeftRumble, 1.0)),
+                new WaitCommand(1.0),
+                Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kLeftRumble, 0))));
+        almostActive.onFalse(new SequentialCommandGroup(
+                Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kRightRumble, 1.0)),
+                new WaitCommand(1.0),
+                Commands.runOnce(() -> Buttons.controller1.setRumble(RumbleType.kRightRumble, 0))));
 
         // ============
         // Other Triggers
         // ============
 
-
-        //shootingIntakeTrigger.whileTrue(new MoveIntake(m_Intake, -0.3));
+        // shootingIntakeTrigger.whileTrue(new MoveIntake(m_Intake, -0.3));
         // TODO fix and uncomment after testing
-        //oscillateTrigger.whileTrue(m_OscillateIntake);
+        // oscillateTrigger.whileTrue(m_OscillateIntake);
         // TODO fix and uncomment after testing
         /*
-        indexerTrigger.whileTrue(new WaitCommand(2).
-            andThen(new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED).
-                alongWith(new SpinStageTwo(m_Indexer, Constants.IndexerConstants.STAGE_TWO_INTAKE_SPEED))));
-        */
+         * indexerTrigger.whileTrue(new WaitCommand(2).
+         * andThen(new SpinStageOne(m_Indexer,
+         * Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED).
+         * alongWith(new SpinStageTwo(m_Indexer,
+         * Constants.IndexerConstants.STAGE_TWO_INTAKE_SPEED))));
+         */
 
         // =====================
         // Generated Swerve Drivetrain Stuff
@@ -362,79 +371,89 @@ public class RobotContainer {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         m_drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            m_drivetrain.applyRequest(() -> {
-                // Check if joystick is idle
-                double joystickX = Math.abs(driverController.getRawAxis(0));
-                double joystickY = Math.abs(driverController.getRawAxis(1));
-                double joystickRot = Math.abs(driverController.getRawAxis(4));
-                
-                if (joystickX < 0.05 && joystickY < 0.05 && joystickRot < 0.05) {
-                    // Idle - apply neutral/idle request to clear any brake
-                    return new SwerveRequest.Idle();
-                }
-                // Normal driving
-                return drive.withVelocityX(driverController.getRawAxis(1) * MaxSpeed) // Drive forward with negative Y (forward) // Left Y
-                            .withVelocityY(driverController.getRawAxis(0) * MaxSpeed) // Drive left with negative X (left) // Left X
-                            .withRotationalRate(-driverController.getRawAxis(4) * MaxAngularRate); // Drive counterclockwise with negative X (left) // Right X
-            })
-        );
+                // Drivetrain will execute this command periodically
+                m_drivetrain.applyRequest(() -> {
+                    // Check if joystick is idle
+                    double joystickX = Math.abs(driverController.getRawAxis(0));
+                    double joystickY = Math.abs(driverController.getRawAxis(1));
+                    double joystickRot = Math.abs(driverController.getRawAxis(4));
+
+                    if (joystickX < 0.05 && joystickY < 0.05 && joystickRot < 0.05) {
+                        // Idle - apply neutral/idle request to clear any brake
+                        return new SwerveRequest.Idle();
+                    }
+                    // Normal driving
+                    return drive.withVelocityX(driverController.getRawAxis(1) * MaxSpeed) // Drive forward with negative
+                                                                                          // Y (forward) // Left Y
+                            .withVelocityY(driverController.getRawAxis(0) * MaxSpeed) // Drive left with negative X
+                                                                                      // (left) // Left X
+                            .withRotationalRate(-driverController.getRawAxis(4) * MaxAngularRate); // Drive
+                                                                                                   // counterclockwise
+                                                                                                   // with negative X
+                                                                                                   // (left) // Right X
+                }));
 
         m_Indexer.setDefaultCommand(m_stageOnePassive.alongWith(new ReverseKicker(m_Indexer)));
-
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
         RobotModeTriggers.disabled().whileTrue(
-            m_drivetrain.applyRequest(() -> idle).ignoringDisable(true)
-        );
-
-
-        /* 
-        // TODO THIS IS FOR SYSID TESTING
-
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-        // Reset the field-centric heading on left bumper press.
-        joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));*/
-        m_drivetrain.registerTelemetry((new Telemetry(5.0))::telemeterize);
-
-        
+                m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
         /*
-        driveIntakeTrigger.whileTrue(m_drivetrain.applyRequest(() ->
-                drive.withVelocityX(driverController.getRawAxis(1) * Constants.DriveConstants.MAX_INTAKE_LINEAR_VELOCITY) // Drive forward with negative Y (forward) // Left Y
-                     .withVelocityY(driverController.getRawAxis(0) * Constants.DriveConstants.MAX_INTAKE_LINEAR_VELOCITY) // Drive left with negative X (left) // Left X
-                     .withRotationalRate(-driverController.getRawAxis(4) * MaxAngularRate) // Drive counterclockwise with negative X (left) // Right X
-            ));
-        */
-        
+         * // TODO THIS IS FOR SYSID TESTING
+         * 
+         * joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+         * joystick.b().whileTrue(drivetrain.applyRequest(() ->
+         * point.withModuleDirection(new Rotation2d(-joystick.getLeftY(),
+         * -joystick.getLeftX()))
+         * ));
+         * // Run SysId routines when holding back/start and X/Y.
+         * // Note that each routine should be run exactly once in a single log.
+         * joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction
+         * .kForward));
+         * joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction
+         * .kReverse));
+         * joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(
+         * Direction.kForward));
+         * joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(
+         * Direction.kReverse));
+         * // Reset the field-centric heading on left bumper press.
+         * joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+         */
+        m_drivetrain.registerTelemetry((new Telemetry(5.0))::telemeterize);
+
+        /*
+         * driveIntakeTrigger.whileTrue(m_drivetrain.applyRequest(() ->
+         * drive.withVelocityX(driverController.getRawAxis(1) *
+         * Constants.DriveConstants.MAX_INTAKE_LINEAR_VELOCITY) // Drive forward with
+         * negative Y (forward) // Left Y
+         * .withVelocityY(driverController.getRawAxis(0) *
+         * Constants.DriveConstants.MAX_INTAKE_LINEAR_VELOCITY) // Drive left with
+         * negative X (left) // Left X
+         * .withRotationalRate(-driverController.getRawAxis(4) * MaxAngularRate) //
+         * Drive counterclockwise with negative X (left) // Right X
+         * ));
+         */
+
     }
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
-        //return autoCommand;
+        // return autoCommand;
     }
 
-    //super fun auto naming thingy helper method
-    private static final Pattern SIDE_WORD =
-        Pattern.compile("(?<![A-Za-z])(left|right)(?![A-Za-z])", Pattern.CASE_INSENSITIVE);
+    // super fun auto naming thingy helper method
+    private static final Pattern SIDE_WORD = Pattern.compile("(?<![A-Za-z])(left|right)(?![A-Za-z])",
+            Pattern.CASE_INSENSITIVE);
 
     /**
      * Builds the chooser label for a mirrored auto.
-     *   "Left Trench Tested"  -> "Right Trench Tested"
-     *   "Right Sweep"         -> "Left Sweep"
-     *   "Left to Right Demo"  -> "Right to Left Demo"   (both words swap)
-     *   "Middle Test Auto"    -> "Middle Test Auto (Mirrored)"  (no side word)
+     * "Left Trench Tested" -> "Right Trench Tested"
+     * "Right Sweep" -> "Left Sweep"
+     * "Left to Right Demo" -> "Right to Left Demo" (both words swap)
+     * "Middle Test Auto" -> "Middle Test Auto (Mirrored)" (no side word)
      */
     private static String mirroredLabel(String name) {
         // Remember whether we actually found a side word to swap.
@@ -444,21 +463,21 @@ public class RobotContainer {
         if (!foundSide) {
             return name + " (Mirrored)";
         }
-    
+
         // Replace every left/right with its opposite, in a single pass so a
         // replaced "Right" is never re-swapped back to "Left".
         return SIDE_WORD.matcher(name).replaceAll(match -> {
-            String original = match.group();                 // text as the user typed it
+            String original = match.group(); // text as the user typed it
             boolean wasLeft = original.equalsIgnoreCase("left");
-            String opposite = wasLeft ? "right" : "left";    // lowercase base word
+            String opposite = wasLeft ? "right" : "left"; // lowercase base word
 
             // Preserve the original capitalization style.
             if (original.equals(original.toUpperCase())) {
-                return opposite.toUpperCase();               // "LEFT"  -> "RIGHT"
+                return opposite.toUpperCase(); // "LEFT" -> "RIGHT"
             } else if (Character.isUpperCase(original.charAt(0))) {
                 return Character.toUpperCase(opposite.charAt(0)) + opposite.substring(1); // "Left" -> "Right"
             } else {
-                return opposite;                             // "left"  -> "right"
+                return opposite; // "left" -> "right"
             }
         });
     }
