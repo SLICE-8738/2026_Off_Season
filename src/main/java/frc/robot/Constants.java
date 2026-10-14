@@ -276,8 +276,8 @@ public final class Constants {
         static {
             SHOOTER_MAP.put(2.064, new FullShooterParams(-2250.0));
             SHOOTER_MAP.put(2.516, new FullShooterParams(-2375.0));
-            SHOOTER_MAP.put(2.730, new FullShooterParams(-2540.0));
-            SHOOTER_MAP.put(3.02,  new FullShooterParams(-2500.0));
+            SHOOTER_MAP.put(2.730, new FullShooterParams(-2425.0));
+            SHOOTER_MAP.put(3.02,  new FullShooterParams(-2450.0));
             SHOOTER_MAP.put(3.184, new FullShooterParams(-2525.0));
             SHOOTER_MAP.put(3.474, new FullShooterParams(-2580.0));
             SHOOTER_MAP.put(3.999, new FullShooterParams(-2675.0));

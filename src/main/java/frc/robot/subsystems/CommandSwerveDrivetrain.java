@@ -290,12 +290,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public boolean detectOutsideAlliance(){
         Pose2d robotPose = getPose();
         if (DriverStation.getAlliance().get() == Alliance.Red){ //checks if its in the red alliance and then uses the constants to find if its within range
-            if (robotPose.getMeasureX().in(Meters) >= Constants.FieldConstants.RED_OUTSIDE_ALLIANCE_ZONE){ 
+            if (robotPose.getMeasureX().in(Meters) <= Constants.FieldConstants.RED_OUTSIDE_ALLIANCE_ZONE){ 
                 return true;
             }
             return false;
         } else { // else its the blue alliance
-            if (robotPose.getMeasureX().in(Meters) <= Constants.FieldConstants.BLUE_OUTSIDE_ALLIANCE_ZONE){
+            if (robotPose.getMeasureX().in(Meters) >= Constants.FieldConstants.BLUE_OUTSIDE_ALLIANCE_ZONE){
                 return true;
             }
             return false;
@@ -499,7 +499,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public void periodic() {
         SmartDashboard.putBoolean("Drive/AtTargetHeading", headingPID.atSetpoint());
         SmartDashboard.putNumber("Drive/HeadingErrorDegrees", Math.toDegrees(headingPID.getPositionError()));
-
+        SmartDashboard.putNumber("Debug/DriveSeesPose", getPose().getX());
+        SmartDashboard.putNumber("Debug/DriveSeesPoseY", getPose().getY());
         if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
             DriverStation.getAlliance().ifPresent(allianceColor -> {
                 setOperatorPerspectiveForward(
