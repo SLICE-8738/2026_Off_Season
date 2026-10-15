@@ -185,9 +185,6 @@ public class RobotContainer {
         m_BasicShootHub = new BasicShoot(m_Shooter);
         m_Pass = new Pass(m_Shooter);
 
-        m_Shooter.setDefaultCommand(
-                m_Shooter.run(() -> m_Shooter.defaultIdleState(m_drivetrain.detectOutsideAlliance())));
-
         /* Autonomous */
 
         /*
@@ -291,7 +288,9 @@ public class RobotContainer {
                                                                                           // intake to compress fuel
                                                                                           // into the shooter
                                                 )))),
-                        m_shoot.alongWith(m_AutoAlignHub,
+                        m_shoot.alongWith(
+                                new AutoAlign(m_drivetrain, AutoAlign.Target.HUB, driverController)
+                                .until(() -> m_Shooter.atTargetSpeed() && m_drivetrain.atTargetHeading()),
                                 new SequentialCommandGroup(
                                         new WaitCommand(2), 
                                         new ParallelCommandGroup(

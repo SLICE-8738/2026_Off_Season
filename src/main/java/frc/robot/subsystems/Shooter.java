@@ -182,14 +182,14 @@ public class Shooter extends SubsystemBase {
         return tuningMode;
     }
 
-    public void defaultIdleState(boolean isOutsideAlliance) {
-        if (isOutsideAlliance) {
-            windDownFlywheels();
-        } else {
-            spinFlywheels(Constants.ShooterConstants.FLYWHEEL_IDLE_RPM);
-        }
+    // public void defaultIdleState(boolean isOutsideAlliance) {
+    //     if (isOutsideAlliance) {
+    //         windDownFlywheels();
+    //     } else {
+    //         spinFlywheels(Constants.ShooterConstants.FLYWHEEL_IDLE_RPM);
+    //     }
 
-    }
+    // }
 
 
     public boolean isHubActive() {
