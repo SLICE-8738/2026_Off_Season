@@ -221,7 +221,7 @@ public class RobotContainer {
             if (name == "Middle Test Auto") {
                 autoChooser.setDefaultOption(name, new PathPlannerAuto(name));
             } else {
-                autoChooser.addOption(name, new PathPlannerAuto(name));
+                autoChooser.addOption(name, new PathPlannerAuto(name, false));
             }
 
             // Normal version, exactly as drawn in the PathPlanner GUI.
