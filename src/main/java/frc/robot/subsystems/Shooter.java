@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.StrictFollower;
@@ -287,6 +288,27 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Shooter velocity: ", getFlywheelSpeed());
         SmartDashboard.putNumber("Shooter supposed velocity: ", getTargetVelocity());
+
+        // ---- Hoot logging (Phoenix SignalLogger) ----
+        // periodic() runs every loop no matter which command owns the shooter, so these
+        // are logged continuously. (Logging inside Shoot.execute() would leave gaps whenever
+        // Shoot isn't scheduled, e.g. during auto-align.)
+        // Names become the signal paths you see in AdvantageScope's sidebar.
+        // The last argument is the units string; it is only metadata for the log viewer.
+
+        // Distance from the robot's pose estimate to the alliance hub, in meters.
+        // This is the exact value Shoot uses for its SHOOTER_MAP lookup.
+        SignalLogger.writeDouble("Shooter/DistanceFromHub", distanceFromHub(), "meters");
+
+        // Average measured flywheel speed across all four motors, in RPM.
+        SignalLogger.writeDouble("Shooter/FlywheelRPM", getFlywheelSpeed(), "rpm");
+
+        // Commanded flywheel speed (what spinFlywheels() last asked for), in RPM.
+        // Plot this against FlywheelRPM to see spin-up time and steady-state error.
+        SignalLogger.writeDouble("Shooter/TargetRPM", getTargetVelocity(), "rpm");
+
+        // True when the flywheels are within FLYWHEEL_RPM_ACCEPTABLE_ERROR of the target.
+        SignalLogger.writeBoolean("Shooter/AtTargetSpeed", atTargetSpeed());
 
 
 

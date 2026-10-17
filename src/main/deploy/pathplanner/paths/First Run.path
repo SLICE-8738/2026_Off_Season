@@ -169,7 +169,7 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.2357320099255489,
       "constraints": {
-        "maxVelocity": 6.0,
+        "maxVelocity": 5.0,
         "maxAcceleration": 7.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -195,7 +195,7 @@
   "eventMarkers": [
     {
       "name": "Extend Intake",
-      "waypointRelativePos": 0.23325062034739252,
+      "waypointRelativePos": 0.3214044564483462,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
