@@ -36,7 +36,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.AutoAlign;
 import frc.robot.commands.drive.AutoAlignTrench;
 import frc.robot.commands.drive.SwerveX;
-import frc.robot.commands.drive.TrimDrivetrain;
 import frc.robot.commands.indexer.ReverseKicker;
 import frc.robot.commands.indexer.SpinBothIndexer;
 import frc.robot.commands.indexer.SpinStageOne;
@@ -265,10 +264,7 @@ public class RobotContainer {
         // Reset the field-centric heading on minus press.
         Buttons.controller1_minusButton.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
 
-        Buttons.controller1_leftBumper.whileTrue(new TrimDrivetrain(m_drivetrain, Math.PI / 2));
-        Buttons.controller1_rightBumper.whileTrue(new TrimDrivetrain(m_drivetrain, -Math.PI / 2));
-
-        Buttons.controller1_YButton.whileTrue(new SpinBothIndexer(m_Indexer));
+        //Buttons.controller1_YButton.whileTrue(new SpinBothIndexer(m_Indexer));
 
         /* Shooter */
 
@@ -309,7 +305,7 @@ public class RobotContainer {
                 new SpinStageOne(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED),
                 new ReverseKicker(m_Indexer)));
 
-        Buttons.controller1_povRight.whileTrue(m_Unstucktake);
+        //Buttons.controller1_povRight.whileTrue(m_Unstucktake);
 
         Buttons.controller1_XButton.whileTrue(new SwerveX(m_drivetrain));
 
@@ -320,8 +316,8 @@ public class RobotContainer {
         Buttons.controller1_BButton
                 .whileTrue(new SpinStageTwo(m_Indexer, Constants.IndexerConstants.STAGE_ONE_INTAKE_SPEED));
 
-        Buttons.controller1_povUp.whileTrue(m_ExtendIntake);
-        Buttons.controller1_povDown.whileTrue(m_RetractIntake);
+        //Buttons.controller1_povUp.whileTrue(m_ExtendIntake);
+        //Buttons.controller1_povDown.whileTrue(m_RetractIntake);
 
         /*
          * Buttons.controller1_rightBumper.whileTrue(m_Pass.alongWith(m_AutoAlignTrench,
