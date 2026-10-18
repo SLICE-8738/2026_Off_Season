@@ -275,11 +275,14 @@ public final class Constants {
                 MathUtil::inverseInterpolate, FullShooterParams::interpolate);
         static {
             SHOOTER_MAP.put(2.064, new FullShooterParams(-2250.0));
+            SHOOTER_MAP.put(2.150, new FullShooterParams(-2272.0));
+            SHOOTER_MAP.put(2.260, new FullShooterParams(-2282.0));
             SHOOTER_MAP.put(2.516, new FullShooterParams(-2375.0));
+            SHOOTER_MAP.put(2.648, new FullShooterParams(-2392.0));
             SHOOTER_MAP.put(2.730, new FullShooterParams(-2425.0));
-            SHOOTER_MAP.put(3.02,  new FullShooterParams(-2450.0));
+            SHOOTER_MAP.put(3.020, new FullShooterParams(-2480.0));
             SHOOTER_MAP.put(3.184, new FullShooterParams(-2525.0));
-            SHOOTER_MAP.put(3.474, new FullShooterParams(-2580.0));
+            SHOOTER_MAP.put(3.474, new FullShooterParams(-2595.0));
             SHOOTER_MAP.put(3.999, new FullShooterParams(-2675.0));
             SHOOTER_MAP.put(4.265, new FullShooterParams(-2800.0));
             SHOOTER_MAP.put(4.497, new FullShooterParams(-2925.0));
