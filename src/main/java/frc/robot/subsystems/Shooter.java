@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants.FullShooterParams;
 import frc.robot.LimelightHelpers;
+import frc.robot.PassTargeting;
 import frc.slicelibs.TalonFXPositionalSubsystem;
 
 public class Shooter extends SubsystemBase {
@@ -127,23 +128,11 @@ public class Shooter extends SubsystemBase {
 
     public double distanceFromTrench(){
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
-        double distance = -1;
-        // get distance to each trench
-        if (isBlue){
-            Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
-            Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
-            double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
-            double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
-            distance = (leftDistance < rightDistance) ? leftDistance : rightDistance;
-        } else {
-            Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
-            Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
-            double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
-            double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
-            distance = (leftDistance < rightDistance) ? leftDistance : rightDistance;
-        }
-
-        return distance;
+        // Flywheel speed is still measured to the TRENCH point (the PASSING_MAP was tuned
+        // for those distances), on the same side the robot is aiming at. Pass-only:
+        // nothing in the hub shot path calls this.
+        Pose2d ref = PassTargeting.getFlywheelReference(isBlue, m_drivetrain.getPose().getTranslation());
+        return m_drivetrain.getDistanceTo(ref);
     }
 
     public double distanceFromHub() {
