@@ -57,7 +57,7 @@
   "folder": "Left Trench Tested",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 110.0
+    "rotation": -70.0
   },
   "useDefaultConstraints": true
 }

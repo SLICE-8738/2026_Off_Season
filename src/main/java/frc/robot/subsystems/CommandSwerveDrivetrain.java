@@ -156,11 +156,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         swerveModules = modules;
 
         
-        if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue){
-            m_Pigeon2.setYaw(0);
-        } else {
-            m_Pigeon2.setYaw(180);
-        }
+        // if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue){
+        //     m_Pigeon2.setYaw(0);
+        // } else {
+        //     m_Pigeon2.setYaw(180);
+        // }
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants drivetrainConstants, double odometryUpdateFrequency,
@@ -179,11 +179,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         swerveModules = modules;
         
-        if(DriverStation.getAlliance().get() == Alliance.Blue){
-            m_Pigeon2.setYaw(0);
-        } else {
-            m_Pigeon2.setYaw(180);
-        }
+        // if(DriverStation.getAlliance().get() == Alliance.Blue){
+        //     m_Pigeon2.setYaw(0);
+        // } else {
+        //     m_Pigeon2.setYaw(180);
+        // }
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants drivetrainConstants, double odometryUpdateFrequency,
@@ -203,11 +203,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         swerveModules = modules;
         
-        if(DriverStation.getAlliance().get() == Alliance.Blue){
-            m_Pigeon2.setYaw(0);
-        } else {
-            m_Pigeon2.setYaw(180);
-        }
+        // if(DriverStation.getAlliance().get() == Alliance.Blue){
+        //     m_Pigeon2.setYaw(0);
+        // } else {
+        //     m_Pigeon2.setYaw(180);
+        // }
     }
 
     private void configHeadingPID() {
@@ -220,9 +220,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             try {
                 var config = RobotConfig.fromGUISettings();
                 AutoBuilder.configure(
-                    () -> getPose(),   // Supplier of current robot pose
+                    this::getPose,   // Supplier of current robot pose
                     this::resetPose,         // Consumer for seeding pose against auto
-                    () -> getChassisSpeeds(), // Supplier of current robot speeds
+                    this::getChassisSpeeds, // Supplier of current robot speeds
                     // Consumer of ChassisSpeeds and feedforwards to drive the robot
                     (speeds, feedforwards) -> setControl(
                         autoRequest.withSpeeds(ChassisSpeeds.discretize(speeds, 0.020))
@@ -237,7 +237,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     ),
                     config,
                     // Assume the path needs to be flipped for Red vs Blue, this is normally the case
-                    () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                    () -> {
+                        if (DriverStation.getAlliance().isPresent()) {
+                            return DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
+                        }
+                        return false;
+                    },
                     this // Subsystem for requirements
                 );
             } catch (Exception ex) {
