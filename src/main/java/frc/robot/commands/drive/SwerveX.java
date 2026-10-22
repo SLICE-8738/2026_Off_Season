@@ -10,13 +10,12 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SwerveX extends Command {
 
-  private CommandSwerveDrivetrain m_drivetrain;
+  private final CommandSwerveDrivetrain m_drivetrain;
 
   /** Creates a new SwerveX. */
   public SwerveX(CommandSwerveDrivetrain m_drivetrain) {
     this.m_drivetrain = m_drivetrain;
-    // Use addRequirements() here to declare subsystem dependencies.
-    //addRequirements(m_drivetrain);
+    addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.

@@ -46,51 +46,51 @@ public final class Constants {
         public static final Translation2d RED_HUB = new Translation2d(11.915, 4.034);
         */
         public static Pose2d getVirtualRed_Hub() {
-            return ShotCalculator.getInstance().getVirtualTarget(Constants.AlignTargets.RED_HUB);
-        }
+            return Constants.AlignTargets.RED_HUB;
+        }   
 
         public static Pose2d getVirtualBlue_Hub() {
-            return ShotCalculator.getInstance().getVirtualTarget(Constants.AlignTargets.BLUE_HUB);
+            return Constants.AlignTargets.BLUE_HUB;
         }
 
         public static Pose2d getVirtualRed_TrenchLeft() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_LEFT, Rotation2d.kZero));
+            return new Pose2d(BLUE_TRENCH_LEFT, Rotation2d.kZero);
         }
 
         public static Pose2d getVirtualRed_TrenchRight() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_TRENCH_RIGHT, Rotation2d.kZero));
+            return new Pose2d(BLUE_TRENCH_RIGHT, Rotation2d.kZero);
         }
 
         public static Pose2d getVirtualBlue_TrenchLeft() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_TRENCH_LEFT, Rotation2d.kZero));
+            return new Pose2d(RED_TRENCH_LEFT, Rotation2d.kZero);
         }
 
         public static Pose2d getVirtualBlue_TrenchRight() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_TRENCH_RIGHT, Rotation2d.kZero));
+            return new Pose2d(RED_TRENCH_RIGHT, Rotation2d.kZero);
         }
 
         public static Pose2d getVirtualBlue_PassLeft() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_LEFT, Rotation2d.kZero));
+            return new Pose2d(RED_PASS_LEFT, Rotation2d.kZero);
         }
 
         public static Pose2d getVirtualBlue_PassRight() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(BLUE_PASS_RIGHT, Rotation2d.kZero));
+            return new Pose2d(RED_PASS_RIGHT, Rotation2d.kZero);
         }
 
         public static Pose2d getVirtualRed_PassLeft() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_LEFT, Rotation2d.kZero));
+            return new Pose2d(BLUE_PASS_LEFT, Rotation2d.kZero);
         }
 
         public static Pose2d getVirtualRed_PassRight() {
-            return ShotCalculator.getInstance().getVirtualTarget(new Pose2d(RED_PASS_RIGHT, Rotation2d.kZero));
+            return new Pose2d(BLUE_PASS_RIGHT, Rotation2d.kZero);
         }
-        public static final Pose2d RED_HUB = new Pose2d(4.625, 4.034, Rotation2d.kZero);
-        public static final Pose2d BLUE_HUB = new Pose2d(11.915, 4.034, Rotation2d.kZero);
+        public static final Pose2d BLUE_HUB = new Pose2d(4.625594, 4.034536, Rotation2d.kZero);
+        public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034536, Rotation2d.kZero);
         
-        public static final Translation2d RED_TRENCH_LEFT = new Translation2d(4.625, 2.395);
-        public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(4.625, 5.675);
-        public static final Translation2d BLUE_TRENCH_LEFT = new Translation2d(11.915, 2.395);
-        public static final Translation2d BLUE_TRENCH_RIGHT = new Translation2d(11.915, 5.675);
+        public static final Translation2d BLUE_TRENCH_LEFT = new Translation2d(4.625, 7.403338);
+        public static final Translation2d BLUE_TRENCH_RIGHT = new Translation2d(4.625, 0.665988);
+        public static final Translation2d RED_TRENCH_LEFT = new Translation2d(11.915, 7.403338);
+        public static final Translation2d RED_TRENCH_RIGHT = new Translation2d(11.915, 0.665988);
 
         public static final Translation2d BLUE_PASS_LEFT = new Translation2d(3.0, 6.5);
         public static final Translation2d BLUE_PASS_RIGHT = new Translation2d(3.0, 1.5);
@@ -107,6 +107,7 @@ public final class Constants {
         /* Indexer Motor IDs */
         public static final int STAGE_ONE_MOTOR_ID = 7;
         public static final int STAGE_TWO_MOTOR_ID = 1;
+
 
         public static final double STAGE_ONE_INTAKE_SPEED = 0.9;
         public static final double STAGE_ONE_INTAKE_PASSIVE_SPEED = 0.2;
@@ -204,36 +205,39 @@ public final class Constants {
 
     public static class IntakeConstants {
 
-        public static final int ROTATION_MOTOR_ID = 6;
-        public static final int EXTENDER_MOTOR_ID = 5;
+        public static final int ROTATION_MOTOR_ID = 5;
+        public static final int ROTATION_MOTOR_FOLLOWER_ID = 9;
+        public static final int EXTENDER_MOTOR_ID = 4;
+        public static final int EXTENDER_MOTOR_FOLLOWER_ID = 6;
 
         // Positional subsystem constants
-        public static final double EXTENDER_KP = 4.0;
+        public static final double EXTENDER_KP = 3.5;
         public static final double EXTENDER_KI = 0;
         public static final double EXTENDER_KD = 0.035;
         public static final double EXTENDER_KG = 0.0; // FF for gravity, most likely don't need this
-        public static final double EXTENDER_RATIO = 50.0 / 9.0; // 5.55 repeating
-        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 40;
-        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 30;
+        public static final double EXTENDER_RATIO = 19.0/6.0; // 3.166 repeating ||  // 50.0 / 9.0; // 5.55 repeating
+        public static final int EXTENDER_STATOR_CURRENT_LIMIT = 50;
+        public static final int EXTENDER_SUPPLY_CURRENT_LIMIT = 40;
         public static final double POSITION_CONVERSION_FACTOR = (0.0254 * Math.PI); // (pitch diameter of pinion * pi)
         public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR; // meters per second
 
         public static final double STOWED_POSITION = 0.0125; // Meters
-        public static final double DEPLOYED_POSITION = 0.29-.006; // Meters
+        public static final double DEPLOYED_POSITION = 0.3800; // Meters
         public static final double OSCILLATION_AMOUNT = .2; // Meters; how far it goes out
         public static final double OSCILLATION_DIFF = .1; // Meters; how much further it goes in
         // Roller motor constants
-        public static final double ROLLER_SPEED = 6000.0 / 60.0;//0.625;//0.9;
+        public static final double ROLLER_SPEED = 6000.0/60.0;//0.625;//0.9;
         public static final double ROLLER_RETRACT_SPEED = 0.0;
-        public static final double ROLLER_GEAR_RATIO = 2.0;
+        public static final double ROLLER_GEAR_RATIO =  10.0/3.0; //3.333 repeating  //2.0;
         public static final double ROLLER_KP = 100.0;
         public static final double ROLLER_KI = 0.0;
         public static final double ROLLER_KD = 10.0;
-        public static final int ROLLER_STATOR_CURRENT_LIMIT = 69;
+        public static final int ROLLER_STATOR_CURRENT_LIMIT = 50;
         public static final int ROLLER_SUPPLY_CURRENT_LIMIT = 40;
     }
 
     public static class ShooterConstants {
+        public static final double FLYWHEEL_IDLE_RPM = 0;
 
         public static final int BOTTOM_LEFT_SHOOTER_MOTOR_ID = 14;
         public static final int BOTTOM_RIGHT_SHOOTER_MOTOR_ID = 2;
@@ -255,7 +259,6 @@ public final class Constants {
         public static final double POSITION_CONVERSION_FACTOR = 360; // Degrees
         public static final double VELOCITY_CONVERSION_FACTOR = POSITION_CONVERSION_FACTOR; // Degrees per Second
 
-        //public static final double AIM_KP = 0.6;
         public static final double AIM_KP = 0.8;
         public static final double AIM_KI = 0.0;
         public static final double AIM_KD = 0.0;
@@ -276,11 +279,14 @@ public final class Constants {
                 MathUtil::inverseInterpolate, FullShooterParams::interpolate);
         static {
             SHOOTER_MAP.put(2.064, new FullShooterParams(-2250.0));
+            SHOOTER_MAP.put(2.150, new FullShooterParams(-2272.0));
+            SHOOTER_MAP.put(2.260, new FullShooterParams(-2282.0));
             SHOOTER_MAP.put(2.516, new FullShooterParams(-2375.0));
-            SHOOTER_MAP.put(2.730, new FullShooterParams(-2500.0));
-            SHOOTER_MAP.put(3.02,  new FullShooterParams(-2500.0));
+            SHOOTER_MAP.put(2.648, new FullShooterParams(-2392.0));
+            SHOOTER_MAP.put(2.730, new FullShooterParams(-2425.0));
+            SHOOTER_MAP.put(3.020, new FullShooterParams(-2480.0));
             SHOOTER_MAP.put(3.184, new FullShooterParams(-2525.0));
-            SHOOTER_MAP.put(3.474, new FullShooterParams(-2580.0));
+            SHOOTER_MAP.put(3.474, new FullShooterParams(-2595.0));
             SHOOTER_MAP.put(3.999, new FullShooterParams(-2675.0));
             SHOOTER_MAP.put(4.265, new FullShooterParams(-2800.0));
             SHOOTER_MAP.put(4.497, new FullShooterParams(-2925.0));
@@ -324,8 +330,6 @@ public final class Constants {
         // Robot dimensions
         public static final double SHOOTER_HEIGHT = 1.7891; // Feet
         public static final double FLYWHEEL_RADIUS = 0.1667; // Feet
-        public static final double LIMELIGHT_ANGLE = 55.0; // Degrees
-        public static final double LIMELIGHT_HEIGHT = Units.inchesToMeters(15.25); // Metres
     }
 
     public static class FieldConstants {
@@ -346,8 +350,8 @@ public final class Constants {
         public static final double SPEED_SHOOTER_AT = 5; // Seconds
 
         // Distances to check if we are past the alliance zone
-        public static final double RED_OUTSIDE_ALLIANCE_ZONE = 5.209; // Metres
-        public static final double BLUE_OUTSIDE_ALLIANCE_ZONE = 11.305; // Metres
+        public static final double BLUE_OUTSIDE_ALLIANCE_ZONE = 5.209; // Metres
+        public static final double RED_OUTSIDE_ALLIANCE_ZONE = 11.305; // Metres
 
     }
 

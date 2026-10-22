@@ -6,13 +6,13 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Shoot extends Command {
@@ -40,14 +40,22 @@ public class Shoot extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // OUTREACH: auto-ranging (distance-based SHOOTER_MAP lookup) removed. The flywheel always
-    // spins to a fixed, safe speed instead of assuming a far distance and ramping to max RPM.
-    double rpm = Constants.ShooterConstants.OUTREACH_FLYWHEEL_RPM;
+    double distance = m_Shooter.distanceFromHub();//m_drivetrain.getDistanceTo(Constants.AlignTargets.RED_HUB);
+    SmartDashboard.putNumber("Debug/ShooterSeesPoseX", m_drivetrain.getPose().getX());
+    SmartDashboard.putNumber("Debug/ShooterSeesPoseY", m_drivetrain.getPose().getY());
+    SmartDashboard.putNumber("Distance", distance);
+    m_ShuffleboardDistance.getEntry().setDouble(distance);
+    m_ShuffleboardGoodSpeed.getEntry().setDouble(m_Shooter.getGoodSpeed());
+    // TODO uncomment and recomment depending on which mode the shooter is in
+    // double angle = 28; //Constants.ShooterConstants.SHOOTER_MAP.get(distance).hoodAngle();
+    double rpm = /* m_ShuffleboardRPM.getDouble(-1200); */ Constants.ShooterConstants.SHOOTER_MAP.get(distance).rpm();
     m_ShuffleboardTargetRPM.getEntry().setDouble(rpm);
     m_Shooter.setGoodSpeed(rpm);
     m_Shooter.spinFlywheels(rpm);

@@ -51,7 +51,6 @@ public class RetractIntake extends Command {
   public void end(boolean interrupted) {
     m_Timer.stop();
     m_Timer.reset();
-    m_intake.setBrakeMode();
     m_intake.stopMotors();
   }
 

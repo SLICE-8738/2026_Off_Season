@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.StrictFollower;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants.FullShooterParams;
 import frc.robot.LimelightHelpers;
+import frc.robot.PassTargeting;
 import frc.slicelibs.TalonFXPositionalSubsystem;
 
 public class Shooter extends SubsystemBase {
@@ -65,6 +67,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void spinFlywheels(double targetRPM) {
+        targetSpeed = targetRPM;
         bottomLeftShooterMotor.setControl(flywheelVelocityRequest.withVelocity(targetRPM   / 60.0));
         bottomRightShooterMotor.setControl(bottomRightFollowerRequest);
         topLeftShooterMotor.setControl(topLeftFollowerRequest);
@@ -116,6 +119,7 @@ public class Shooter extends SubsystemBase {
     }*/
 
     public void windDownFlywheels() {
+        targetSpeed = 0.0;
         bottomLeftShooterMotor.stopMotor();
         bottomRightShooterMotor.stopMotor();
         topLeftShooterMotor.stopMotor();
@@ -124,28 +128,16 @@ public class Shooter extends SubsystemBase {
 
     public double distanceFromTrench(){
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
-        double distance = -1;
-        // get distance to each trench
-        if (isBlue){
-            Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
-            Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
-            double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
-            double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
-            distance = (leftDistance < rightDistance) ? leftDistance : rightDistance;
-        } else {
-            Pose2d leftTarget = Constants.AlignTargets.getVirtualRed_TrenchLeft();
-            Pose2d rightTarget = Constants.AlignTargets.getVirtualBlue_TrenchRight();
-            double leftDistance = m_drivetrain.getDistanceTo(leftTarget);
-            double rightDistance = m_drivetrain.getDistanceTo(rightTarget);
-            distance = (leftDistance < rightDistance) ? leftDistance : rightDistance;
-        }
-
-        return distance;
+        // Flywheel speed is still measured to the TRENCH point (the PASSING_MAP was tuned
+        // for those distances), on the same side the robot is aiming at. Pass-only:
+        // nothing in the hub shot path calls this.
+        Pose2d ref = PassTargeting.getFlywheelReference(isBlue, m_drivetrain.getPose().getTranslation());
+        return m_drivetrain.getDistanceTo(ref);
     }
 
     public double distanceFromHub() {
         boolean isBlue = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue;
-        Pose2d targetPosition = isBlue ? Constants.AlignTargets.getVirtualRed_Hub() : Constants.AlignTargets.getVirtualBlue_Hub();
+        Pose2d targetPosition = isBlue ? Constants.AlignTargets.BLUE_HUB : Constants.AlignTargets.RED_HUB; //could change this to the constants, maybe could be a fix
         double dist = m_drivetrain.getDistanceTo(targetPosition);
         return dist;
 
@@ -172,12 +164,23 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean atTargetSpeed() {
-        return Math.abs(targetSpeed - getFlywheelSpeed()) <= Constants.ShooterConstants.FLYWHEEL_RPM_ACCEPTABLE_ERROR;
+        return targetSpeed != 0.0
+                && Math.abs(targetSpeed - getFlywheelSpeed()) <= Constants.ShooterConstants.FLYWHEEL_RPM_ACCEPTABLE_ERROR;
     }
 
     public boolean isTuningMode() {
         return tuningMode;
     }
+
+    // public void defaultIdleState(boolean isOutsideAlliance) {
+    //     if (isOutsideAlliance) {
+    //         windDownFlywheels();
+    //     } else {
+    //         spinFlywheels(Constants.ShooterConstants.FLYWHEEL_IDLE_RPM);
+    //     }
+
+    // }
+
 
     public boolean isHubActive() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
@@ -274,6 +277,27 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Shooter velocity: ", getFlywheelSpeed());
         SmartDashboard.putNumber("Shooter supposed velocity: ", getTargetVelocity());
+
+        // ---- Hoot logging (Phoenix SignalLogger) ----
+        // periodic() runs every loop no matter which command owns the shooter, so these
+        // are logged continuously. (Logging inside Shoot.execute() would leave gaps whenever
+        // Shoot isn't scheduled, e.g. during auto-align.)
+        // Names become the signal paths you see in AdvantageScope's sidebar.
+        // The last argument is the units string; it is only metadata for the log viewer.
+
+        // Distance from the robot's pose estimate to the alliance hub, in meters.
+        // This is the exact value Shoot uses for its SHOOTER_MAP lookup.
+        SignalLogger.writeDouble("Shooter/DistanceFromHub", distanceFromHub(), "meters");
+
+        // Average measured flywheel speed across all four motors, in RPM.
+        SignalLogger.writeDouble("Shooter/FlywheelRPM", getFlywheelSpeed(), "rpm");
+
+        // Commanded flywheel speed (what spinFlywheels() last asked for), in RPM.
+        // Plot this against FlywheelRPM to see spin-up time and steady-state error.
+        SignalLogger.writeDouble("Shooter/TargetRPM", getTargetVelocity(), "rpm");
+
+        // True when the flywheels are within FLYWHEEL_RPM_ACCEPTABLE_ERROR of the target.
+        SignalLogger.writeBoolean("Shooter/AtTargetSpeed", atTargetSpeed());
 
 
 

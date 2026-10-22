@@ -23,6 +23,7 @@ public class CTREConfigs {
 
     public final TalonFXConfiguration extenderConfigs = new TalonFXConfiguration();
     public final TalonFXConfiguration rollerConfigs = new TalonFXConfiguration();
+    public final TalonFXConfiguration rollerFollowerConfigs = new TalonFXConfiguration();
 
     public final TalonFXConfiguration indexerConfigs = new TalonFXConfiguration();
     public final TalonFXConfiguration intakeConfigs = new TalonFXConfiguration();
@@ -158,6 +159,19 @@ public class CTREConfigs {
         rollerConfigs.Feedback.SensorToMechanismRatio = Constants.IntakeConstants.ROLLER_GEAR_RATIO;
         rollerConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.ROLLER_STATOR_CURRENT_LIMIT;
         rollerConfigs.CurrentLimits.SupplyCurrentLimit = Constants.IntakeConstants.ROLLER_SUPPLY_CURRENT_LIMIT;
+
+        rollerConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+
+        rollerFollowerConfigs.Slot0.kP = Constants.IntakeConstants.ROLLER_KP;
+        rollerFollowerConfigs.Slot0.kI = Constants.IntakeConstants.ROLLER_KI;
+        rollerFollowerConfigs.Slot0.kD = Constants.IntakeConstants.ROLLER_KD;
+
+        rollerFollowerConfigs.Feedback.SensorToMechanismRatio = Constants.IntakeConstants.ROLLER_GEAR_RATIO;
+        rollerFollowerConfigs.CurrentLimits.StatorCurrentLimit = Constants.IntakeConstants.ROLLER_STATOR_CURRENT_LIMIT;
+        rollerFollowerConfigs.CurrentLimits.SupplyCurrentLimit = Constants.IntakeConstants.ROLLER_SUPPLY_CURRENT_LIMIT;
+
+        rollerFollowerConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     }
 
     private void configureIndexer() {
