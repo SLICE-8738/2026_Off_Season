@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.325477888730385,
-        "y": 7.573723252496434
+        "x": 7.3254767299994885,
+        "y": 7.57374705715394
       },
       "isLocked": false,
       "linkedName": null
@@ -83,7 +83,7 @@
     "rotation": 80.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Left Trench Tested",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
